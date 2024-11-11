@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model User {
+  id        String @id @default(uuid())
+  firstName String
+  lastName  String
+  userName  String
+  password  String
+  Profile   Profile[]
+}
+
+model Profile {
+  id                     String @id @default(uuid())
+  userId                 String
+  themeId                String
+  seoId                  String
+  name                   String
+  photoUrl               String
+  coverUrl               String
+  link                   String
+  ProfileCustomLink      ProfileCustomLink[]
+  ProfileHeader          ProfileHeader[]
+  ProfileSocialMediaLink ProfileSocialMediaLink[]
+  Seo                    Seo @relation(fields: [seoId], references: [id])
+  Theme                  Theme @relation(fields: [themeId], references: [id])
+  User                   User @relation(fields: [userId], references: [id])
+}
+
+model CustomLink {
+  id   String @id @default(uuid())
+  name String
+  url  String
+  ProfileCustomLink ProfileCustomLink[]
+}
+
+model Faq {
+  id       String @id @default(uuid())
+  question String
+  answer   String
+}
+
+model Header {
+  id            String @id @default(uuid())
+  title         String
+  ProfileHeader ProfileHeader[]
+}
+
+model ProfileCustomLink {
+  id           String @id @default(uuid())
+  profileId    String
+  customLinkId String
+  Profile      Profile @relation(fields: [profileId], references: [id])
+  CustomLink   CustomLink @relation(fields: [customLinkId], references: [id])
+  
+}
+
+model ProfileHeader {
+  id        String @id @default(uuid())
+  profileId String
+  headerId  String
+  Profile   Profile @relation(fields: [profileId], references: [id])
+  Header    Header @relation(fields: [headerId], references: [id])
+  
+}
+
+model ProfileSocialMediaLink {
+  id            String @id @default(uuid())
+  profileId     String
+  socialMediaId String
+  Profile       Profile @relation(fields: [profileId], references: [id])
+  SocialMedia   SocialMedia @relation(fields: [socialMediaId], references: [id])
+}
+
+model Seo {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  Profile     Profile[]
+}
+
+model SocialMedia {
+  id                     String @id @default(uuid())
+  name                   String
+  url                    String
+  icon                   String
+  ProfileSocialMediaLink ProfileSocialMediaLink[]
+}
+
+model Theme {
+  id      String @id @default(uuid())
+  name    String
+  Profile Profile[]
+}

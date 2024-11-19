@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 // internal imports
 const {notfoundHandler,errorHandler} = require("./middlewares/common/errorHandler");
 
-const registrationRouter = require("./routers/RegisterRouter");
+const userRouter = require("./routers/userRouter");
 
 // app configuration
 const app = express();
@@ -24,8 +24,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // routing setup
 // app.use("/", homeRouter);
-app.use("/register", registrationRouter);
-// app.use("/", );
+app.use("/user", userRouter);
 // app.use("/", );
 // app.use("/", );
 // app.use("/", );

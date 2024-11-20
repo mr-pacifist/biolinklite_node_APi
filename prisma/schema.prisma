@@ -22,7 +22,9 @@ model User {
   userName  String  @unique
   email     String? @unique
   password  String
-  Profile   Profile[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Profile   Profile[] 
 }
 
 model Profile {
@@ -34,6 +36,8 @@ model Profile {
   photoUrl               String
   coverUrl               String
   link                   String
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
   ProfileCustomLink      ProfileCustomLink[]
   ProfileHeader          ProfileHeader[]
   ProfileSocialMediaLink ProfileSocialMediaLink[]

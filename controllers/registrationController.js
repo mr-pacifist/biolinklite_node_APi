@@ -34,7 +34,6 @@ async function addUser(req,res,next) {
             next();  
               
         }catch(error){
-            
             res.status(500).json({
                 error:{
                     msg:"Internal server errro!!",

@@ -4,14 +4,16 @@ const createError = require("http-errors");
 // 404 not found handler
 
 function notfoundHandler(req,res,next){
-    next(createError(404, "Your requested content was not found"));
+    next(createError(404, "Not found"));
 }
 
 // default error handler
-function errorHandler(err,req,res){
-    res.locals.error = {message: err.message};
-    res.status(err.status || 500).json(res.locals.error);
-
+function errorHandler(err,req,res,next){
+    if (err.message === 'Not found') {
+        res.status(404).json({ error: 'Your requested content was not found' });
+    } else {
+        res.status(500).json({ error: 'An unexpected error occurred.'});
+    }
 }
 
 

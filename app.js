@@ -10,6 +10,7 @@ const {notfoundHandler,errorHandler} = require("./middlewares/common/errorHandle
 const userRouter = require("./routers/userRouter");
 const profileRouter = require("./routers/profileRouter");
 const custom_linkRouter = require("./routers/custom_linkRouter");
+const headerRouter = require("./routers/headerRouter");
 
 // app configuration
 const app = express();
@@ -29,7 +30,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use("/user", userRouter);
 app.use("/profile", profileRouter );
 app.use("/custom_link", custom_linkRouter);
-// app.use("/", );
+app.use("/header", headerRouter);
 
 // 404 not found handler
 app.use(notfoundHandler);

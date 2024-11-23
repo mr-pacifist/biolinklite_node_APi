@@ -49,16 +49,15 @@ async function addCustomLink(req,res) {
             }
         });
 
-        if(newLink){
+        if(!newLink){
+            res.status(500).json("Internal server error!"); 
+        }
+        else{
             res.status(200).json({
                 message: "Link added successfully!",
                 newLink,
             });
         }
-        else{
-            res.status(404).json("Internal server error!");
-        }
-
     }
     catch(error){
         if(error){

@@ -11,6 +11,8 @@ const userRouter = require("./routers/userRouter");
 const profileRouter = require("./routers/profileRouter");
 const custom_linkRouter = require("./routers/custom_linkRouter");
 const headerRouter = require("./routers/headerRouter");
+const socialMediaRouter = require("./routers/socialMediaRouter");
+const seoRouter = require("./routers/seoRouter");
 
 // app configuration
 const app = express();
@@ -31,6 +33,8 @@ app.use("/user", userRouter);
 app.use("/profile", profileRouter );
 app.use("/custom_link", custom_linkRouter);
 app.use("/header", headerRouter);
+app.use("/socialMedia", socialMediaRouter);
+app.use("/seo", seoRouter);
 
 // 404 not found handler
 app.use(notfoundHandler);

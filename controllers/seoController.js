@@ -6,10 +6,9 @@ const Prisma = require("../prisma/prismaClient");
 
 
 //get link name and url
-async function getCustomLink(req,res) {
-    const linkIds = req.body.customLinkIds;
+async function getSeo(req,res) {
     try{
-        const LinkList = await Prisma.customLink.findMany({
+        const LinkList = await Prisma.seo.findMany({
             // where: {
             //   id: {
             //     in: linkIds,
@@ -39,23 +38,23 @@ async function getCustomLink(req,res) {
 }
 
 // add link name and url
-async function addCustomLink(req,res) {
-    const {name,url} = req.body;
+async function addSeo(req,res) {
+    const {title,description} = req.body;
     try{
-        const newLink = await Prisma.customLink.create({
+        const newSeo = await Prisma.seo.create({
             data:{
-                name,
-                url,
+                title,
+                description,
             }
         });
 
-        if(!newLink){
+        if(!newSeo){
             res.status(500).json("Internal server error!"); 
         }
         else{
             res.status(200).json({
-                message: "Link added successfully!",
-                newLink,
+                message: "SEO added successfully!",
+                newSeo,
             });
         }
     }
@@ -71,31 +70,31 @@ async function addCustomLink(req,res) {
 }
 
 // update link name and link url
-async function updateCustomLink(req,res) {
-    const {name,url} = req.body;
+async function updateSeo(req,res) {
+    const {title,description} = req.body;
     
     try{
-        const updatedLink = await Prisma.customLink.update({
+        const updatedSeo = await Prisma.seo.update({
             where: {
               id: req.params.id,
             },
             data:{
-                name,
-                url,
+                title,
+                description,
             }
           });
 
-        if(!updatedLink){
+        if(!updatedSeo){
             res.status(404).json({
                 error:{
-                    msg:"There is no link founded",
+                    msg:"SEO not founded",
                 }
             });  
         }
         else{
             res.status(200).json({
                 message: "Updated successfully!",
-                updatedLink,
+                updatedSeo,
             });  
         }
     }
@@ -111,25 +110,32 @@ async function updateCustomLink(req,res) {
 }
 
 // delete custom link
-async function removeCustomLink(req,res) {
+async function removeSeo(req,res) {
     try{
-        const deleteCustomLink = await Prisma.customLink.delete({
+        const removedSeo = await Prisma.seo.delete({
             where: {
               id:req.params.id,
             },
           });
-         
-        res.status(200).json({
-            message:"Link deleted successfully."
-        });
-          
+          if(!removedSeo){
+            res.status(404).json({
+                error:{
+                    msg:"SEO not founded",
+                }
+            });  
+        }
+        else{
+            res.status(200).json({
+                message: "SEO deleted successfully!",
+            });  
+        }    
     }
     catch(error){
         
         if(error){
             res.status(500).json({
                 error:{
-                    msg:"Could not delete the link!",
+                    msg:"Could not delete the SEO!",
                 }
             });
         }
@@ -137,8 +143,8 @@ async function removeCustomLink(req,res) {
 }
 
 module.exports ={
-    getCustomLink,
-    addCustomLink,
-    updateCustomLink,
-    removeCustomLink,
+    getSeo,
+    addSeo,
+    updateSeo,
+    removeSeo,
 };

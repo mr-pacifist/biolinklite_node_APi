@@ -2,29 +2,27 @@
 const { check, validationResult } = require("express-validator");
 
 
-// custom link validator
-const customLinkValidation = [
-    check("name")
+// seo validator
+const seoValidation = [
+    check("title")
         .notEmpty()
-        .withMessage("Link name is required")
+        .withMessage("Title is required")
         .isLength({ min:3},{max:20})
-        .withMessage("Link name must be 3 chars long")
+        .withMessage("Title must be 3-20 chars long")
         .toLowerCase()
         .trim(),
       
-    check("url")
+    check("description")
         .notEmpty()
-        .withMessage("Url is required")
-        .isURL()
-        .withMessage('Please enter a valid URL')
+        .withMessage("Description is required")
         .isLength({max:255})
-        .withMessage("URL is too long")
+        .withMessage("Description is too long")
         .trim().escape(),
   ];
 
 
 // custom link validation handler
-const customLinkValidationHandler = function (req, res, next) {
+const seoValidationHandler = function (req, res, next) {
     const errors = validationResult(req);
     const mappedErrors = errors.mapped();
     if (Object.keys(mappedErrors).length === 0) {
@@ -37,6 +35,6 @@ const customLinkValidationHandler = function (req, res, next) {
   };
 
 module.exports = {
-    customLinkValidation,
-    customLinkValidationHandler,
+    seoValidation,
+    seoValidationHandler,
 }

@@ -84,9 +84,10 @@ model ProfileHeader {
 }
 
 model ProfileSocialMediaLink {
-  id            String @id @default(uuid())
-  profileId     String
-  socialMediaId String
+  id                         String @id @default(uuid())
+  profileId                  String
+  socialMediaId              String
+  socialMediaSubdirectory    String
   Profile       Profile @relation(fields: [profileId], references: [id])
   SocialMedia   SocialMedia @relation(fields: [socialMediaId], references: [id])
 }

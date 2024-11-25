@@ -2,16 +2,8 @@
 const { check, validationResult } = require("express-validator");
 
 
-// custom link validator
-const customLinkValidation = [
-    check("name")
-        .notEmpty()
-        .withMessage("Link name is required")
-        .isLength({ min:3},{max:20})
-        .withMessage("Link name must be 3 chars long")
-        .toLowerCase()
-        .trim(),
-      
+// socialmedia  validator
+const socialMediaUrlValidation = [  
     check("url")
         .notEmpty()
         .withMessage("Url is required")
@@ -23,8 +15,8 @@ const customLinkValidation = [
   ];
 
 
-// custom link validation handler
-const customLinkValidationHandler = function (req, res, next) {
+// social media validation handler
+const socialMediaUrlValidationHandler = function (req, res, next) {
     const errors = validationResult(req);
     const mappedErrors = errors.mapped();
     if (Object.keys(mappedErrors).length === 0) {
@@ -37,6 +29,6 @@ const customLinkValidationHandler = function (req, res, next) {
   };
 
 module.exports = {
-    customLinkValidation,
-    customLinkValidationHandler,
+    socialMediaUrlValidation,
+    socialMediaUrlValidationHandler
 }

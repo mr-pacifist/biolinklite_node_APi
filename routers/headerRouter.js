@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // internal router
-const {authorization} = require("../middlewares/common/authorization");
+const {authencitation} = require("../middlewares/common/authencitation");
 const {headerValidation, headerValidationHandler} = require("../middlewares/header/headerValidator");
 
 const {
@@ -18,21 +18,21 @@ router.get("/",);
 
 // add header
 router.post("/addHeader",
-    authorization,
+    authencitation,
     headerValidation,
     headerValidationHandler, 
     addHeaderTitle
 );
 // update header
 router.put("/updateHeader/:id",
-    authorization,
+    authencitation,
     headerValidation,
     headerValidationHandler, 
     updateHeaderTitle
 );
 // delete header
 router.delete("/removeHeader/:id",
-    authorization,
+    authencitation,
     deleteHeaderTitle,
 );
 

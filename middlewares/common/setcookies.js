@@ -23,10 +23,10 @@ const setCookies = function(req,res){
   //user object check
   if(userObject.login){
 
-    res.status(200).json({message:"Login successful!"});
+    res.status(202).json({message:"Login successful!"});
     
   }else{
-    res.status(200).json({
+    res.status(201).json({
       message:"User registation successful!",
     });
   }

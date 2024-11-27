@@ -53,7 +53,7 @@ async function addCustomLink(req,res) {
             res.status(500).json("Internal server error!"); 
         }
         else{
-            res.status(200).json({
+            res.status(201).json({
                 message: "Link added successfully!",
                 newLink,
             });

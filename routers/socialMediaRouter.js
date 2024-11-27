@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 // internal router
-const { authorization } = require("../middlewares/common/authorization");
+const {authencitation} = require("../middlewares/common/authencitation");
 
 const {
     socialMediaUrlValidation,
@@ -23,11 +23,11 @@ const {
 
 
 // get social media
-router.get("/",authorization );
+router.get("/",authencitation );
 
 // add social media
 router.post("/add",
-    authorization,
+    authencitation,
     socialMediaUrlValidation,
     socialMediaUrlValidationHandler,
     splitSubdirectories,
@@ -35,10 +35,10 @@ router.post("/add",
 );
 
 // update social media
-router.put("/update/:id",authorization );
+router.put("/update/:id",authencitation );
 
 // remove social media
-router.delete("/remove/:id",authorization );
+router.delete("/remove/:id",authencitation );
 
 
 

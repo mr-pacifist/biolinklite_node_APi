@@ -13,7 +13,7 @@ const {registrationValidators,
 // email verification middlewar
 const emailValidator = require("../utils/emailValidator")
 ; 
-const { authorization, checkLogin} = require("../middlewares/common/authorization"); 
+const { checkLogin} = require("../middlewares/common/authencitation"); 
 const setCookies = require("../middlewares/common/setcookies"); 
 
 const {addUser} = require("../controllers/registrationController");

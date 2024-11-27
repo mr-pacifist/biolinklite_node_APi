@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 // internal router
-const { authorization } = require("../middlewares/common/authorization");
+const {authencitation} = require("../middlewares/common/authencitation");
 
 const {
     seoValidation,
@@ -21,11 +21,11 @@ const {
 
 
 // get seo title and description
-router.get("/",authorization, getSeo);
+router.get("/",authencitation, getSeo);
 
 // add seo title and description
 router.post("/add-seo",
-    authorization,
+    authencitation,
     seoValidation,
     seoValidationHandler,
     addSeo, 
@@ -33,7 +33,7 @@ router.post("/add-seo",
 
 // update seo title and description by id
 router.put("/update-seo/:id",
-    authorization,
+    authencitation,
     seoValidation,
     seoValidationHandler,
     updateSeo, 
@@ -41,7 +41,7 @@ router.put("/update-seo/:id",
 
 // remove seo title and description by id
 router.delete("/remove-seo/:id",
-    authorization,
+    authencitation,
     removeSeo
  );
 

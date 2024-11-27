@@ -20,7 +20,7 @@ async function addHeaderTitle(req,res) {
             res.status(500).json("Internal server error!");  
         }
         else{
-            res.status(200).json({
+            res.status(201).json({
                 message: "Header added successfully!",
                 newHeader,
             });

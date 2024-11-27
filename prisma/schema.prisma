@@ -30,12 +30,13 @@ model User {
 model Profile {
   id                     String @id @default(uuid())
   userId                 String
-  themeId                String
+  themeId                Int      @default(1)
   seoId                  String
   name                   String
-  photoUrl               String
-  coverUrl               String
-  link                   String
+  bio                    String
+  profilePhoto           String
+  coverPhoto             String
+  sub_directory          String @unique
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
   ProfileCustomLink      ProfileCustomLink[]
@@ -51,12 +52,6 @@ model CustomLink {
   name String
   url  String
   ProfileCustomLink ProfileCustomLink[]
-}
-
-model Faq {
-  id       String @id @default(uuid())
-  question String
-  answer   String
 }
 
 model Header {
@@ -108,7 +103,7 @@ model SocialMedia {
 }
 
 model Theme {
-  id      String @id @default(uuid())
+  id      Int @id
   name    String
   Profile Profile[]
 }

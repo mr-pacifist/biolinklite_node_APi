@@ -4,7 +4,7 @@ const router = express.Router();
 
 // internal imports
 
-const {authorization} = require("../middlewares/common/authorization");
+const {authencitation} = require("../middlewares/common/authencitation");
 
 const {
     customLinkValidation,
@@ -22,11 +22,11 @@ const {
 
 
 
-router.get("/",authorization, getCustomLink);
+router.get("/",authencitation, getCustomLink);
 
 // add custom link
 router.post("/add", 
-    authorization,
+    authencitation,
     customLinkValidation,
     customLinkValidationHandler,
     addCustomLink
@@ -34,7 +34,7 @@ router.post("/add",
 
 // update custom link
 router.put("/edit/:id", 
-    authorization,
+    authencitation,
     customLinkValidation,
     customLinkValidationHandler,
     updateCustomLink
@@ -42,7 +42,7 @@ router.put("/edit/:id",
 
 // delete custom link
 router.delete("/remove/:id", 
-    authorization,
+    authencitation,
     removeCustomLink   
 );
 

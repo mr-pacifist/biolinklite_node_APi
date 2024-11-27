@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 // auth guard to protect routes that need authentication
-const authorization = (req, res, next) => {
+const authencitation = (req, res, next) => {
   let cookies =
     Object.keys(req.signedCookies).length > 0 ? req.signedCookies : null;
 
@@ -58,6 +58,6 @@ const checkLogin = function (req, res, next) {
 
 
 module.exports = {
-  authorization,
+  authencitation,
   checkLogin,
 };

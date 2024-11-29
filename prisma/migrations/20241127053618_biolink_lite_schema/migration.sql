@@ -18,15 +18,18 @@ CREATE TABLE `User` (
 CREATE TABLE `Profile` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
-    `themeId` VARCHAR(191) NOT NULL,
-    `seoId` VARCHAR(191) NOT NULL,
+    `themeId` INTEGER NOT NULL DEFAULT 1,
     `name` VARCHAR(191) NOT NULL,
-    `photoUrl` VARCHAR(191) NOT NULL,
-    `coverUrl` VARCHAR(191) NOT NULL,
-    `link` VARCHAR(191) NOT NULL,
+    `bio` VARCHAR(191) NOT NULL,
+    `profilePhoto` VARCHAR(191) NOT NULL,
+    `coverPhoto` VARCHAR(191) NOT NULL,
+    `sub_directory` VARCHAR(191) NOT NULL,
+    `seo_title` VARCHAR(191) NOT NULL,
+    `seo_description` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `Profile_sub_directory_key`(`sub_directory`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -35,15 +38,6 @@ CREATE TABLE `CustomLink` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `url` VARCHAR(191) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Faq` (
-    `id` VARCHAR(191) NOT NULL,
-    `question` VARCHAR(191) NOT NULL,
-    `answer` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -79,15 +73,7 @@ CREATE TABLE `ProfileSocialMediaLink` (
     `id` VARCHAR(191) NOT NULL,
     `profileId` VARCHAR(191) NOT NULL,
     `socialMediaId` VARCHAR(191) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `Seo` (
-    `id` VARCHAR(191) NOT NULL,
-    `title` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `socialMediaSubdirectory` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -104,14 +90,11 @@ CREATE TABLE `SocialMedia` (
 
 -- CreateTable
 CREATE TABLE `Theme` (
-    `id` VARCHAR(191) NOT NULL,
+    `id` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- AddForeignKey
-ALTER TABLE `Profile` ADD CONSTRAINT `Profile_seoId_fkey` FOREIGN KEY (`seoId`) REFERENCES `Seo`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Profile` ADD CONSTRAINT `Profile_themeId_fkey` FOREIGN KEY (`themeId`) REFERENCES `Theme`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

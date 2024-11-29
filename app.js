@@ -34,7 +34,7 @@ app.use("/profile", profileRouter );
 app.use("/custom_link", custom_linkRouter);
 app.use("/header", headerRouter);
 app.use("/socialMedia", socialMediaRouter);
-app.use("/seo", seoRouter);
+
 
 // 404 not found handler
 app.use(notfoundHandler);

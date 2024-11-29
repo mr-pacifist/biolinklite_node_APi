@@ -30,19 +30,19 @@ model User {
 model Profile {
   id                     String @id @default(uuid())
   userId                 String
-  themeId                Int      @default(1)
-  seoId                  String
+  themeId                Int      @default(2)
   name                   String
   bio                    String
   profilePhoto           String
   coverPhoto             String
   sub_directory          String @unique
+  seo_title              String
+  seo_description        String
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
   ProfileCustomLink      ProfileCustomLink[]
   ProfileHeader          ProfileHeader[]
   ProfileSocialMediaLink ProfileSocialMediaLink[]
-  Seo                    Seo @relation(fields: [seoId], references: [id])
   Theme                  Theme @relation(fields: [themeId], references: [id])
   User                   User @relation(fields: [userId], references: [id])
 }
@@ -85,13 +85,6 @@ model ProfileSocialMediaLink {
   socialMediaSubdirectory    String
   Profile       Profile @relation(fields: [profileId], references: [id])
   SocialMedia   SocialMedia @relation(fields: [socialMediaId], references: [id])
-}
-
-model Seo {
-  id          String @id @default(uuid())
-  title       String
-  description String
-  Profile     Profile[]
 }
 
 model SocialMedia {

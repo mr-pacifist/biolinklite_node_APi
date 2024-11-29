@@ -12,6 +12,8 @@ function errorHandler(err,req,res,next){
     if (err.message === 'Not found') {
         res.status(404).json({ error: 'Your requested content was not found' });
     } else {
+        console.log(err);
+              
         res.status(500).json({ error: 'An unexpected error occurred.'});
     }
 }

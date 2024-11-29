@@ -5,12 +5,15 @@ const router = express.Router();
 // internal imports
 const { authencitation } = require("../middlewares/common/authencitation");
 
-const {  
-    profileValidation,
-    profileValidationHandler
+const { 
+    createProfileValidation, 
+    createProfileValidationHandler,
+    updateProfileValidation,
+    updateProfileValidationHandler
 } = require("../middlewares/profile/profileValidator");
 
 const imageUploader = require("../middlewares/profile/imageUploader");
+const multipleImageUpload = require("../middlewares/profile/multipleImageUpload");
 
 const { 
     getProfile,
@@ -28,9 +31,19 @@ router.get("/",authencitation );
 router.post("/new-profile",
     authencitation,
     imageUploader,
-    profileValidation,
-    profileValidationHandler,
+    createProfileValidation, 
+    createProfileValidationHandler,
     createProfile
+);
+
+// update profile
+router.put("/edit-profile/:id",
+    authencitation,
+    multipleImageUpload,
+    updateProfileValidation,
+    updateProfileValidationHandler,
+    updateProfile,
+    
 );
 
 module.exports = router;

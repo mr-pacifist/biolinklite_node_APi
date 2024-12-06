@@ -4,6 +4,11 @@ const { check, validationResult } = require("express-validator");
 
 // custom link validator
 const customLinkValidation = [
+    check("profileId")
+        .notEmpty()
+        .withMessage("Profile ID is missing")
+        .trim(),
+
     check("name")
         .notEmpty()
         .withMessage("Link name is required")

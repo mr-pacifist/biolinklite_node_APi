@@ -10,21 +10,27 @@ async function getHeaderTitle(req,res) {
 async function addHeaderTitle(req,res) {
 
     try{
+        const {profileId, title} = req.body;
+        // create new Header
         const newHeader = await Prisma.header.create({
             data:{
-                title:req.body.title,
+                title,
+            }
+        });
+        // Associate the header with the profile
+
+        await Prisma.profileHeader.create({
+            data:{
+                profileId,
+                headerId:newHeader.id,
             }
         });
 
-        if(!newHeader){
-            res.status(500).json("Internal server error!");  
-        }
-        else{
-            res.status(201).json({
-                message: "Header added successfully!",
-                newHeader,
-            });
-        }
+        res.status(201).json({
+            message: "Header added successfully!",
+            newHeader,
+        });
+
 
     }
     catch(error){
@@ -37,11 +43,14 @@ async function addHeaderTitle(req,res) {
                 }
             });
         }
-    }  
+    } 
+    finally { 
+        await Prisma.$disconnect(); 
+
+    } 
 }
-    
 
-
+// update header
 async function updateHeaderTitle(req,res) {
     try{
         const updatedHeader = await Prisma.header.update({
@@ -72,6 +81,9 @@ async function updateHeaderTitle(req,res) {
                 }
             });
         }
+    }finally { 
+        await Prisma.$disconnect(); 
+
     } 
     
 }
@@ -96,6 +108,9 @@ async function deleteHeaderTitle(req,res) {
                 }
             });
         }
+    }finally { 
+        await Prisma.$disconnect(); 
+
     }
 }
     

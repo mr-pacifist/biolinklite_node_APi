@@ -167,15 +167,40 @@ async function updateProfile(req,res) {
                     result:error.message,
                 }
             });
-        }
-        
+        }    
     }
-   
 }
 
 // delete user existing  profile
 async function deleteProfile(req,res) {
     
+}
+// delete user existing  profile
+async function changeTheme(req,res) {
+    try {
+        const updateTheme = await Prisma.profile.update({
+            where:{
+                id:req.params.id,
+            },
+            data:{
+                themeId: req.body.themeId,
+            }
+        });
+
+        res.status(200).json({
+            message:"Theme updated successfully!",
+            updateTheme,
+        });
+        
+    } catch (error) {
+        if(error){
+            res.status(500).json({
+                error:{
+                    msg:"Internal server error!",
+                }
+            });
+        }    
+    } 
 }
 
 
@@ -184,4 +209,5 @@ module.exports = {
     createProfile,
     updateProfile,
     deleteProfile,
+    changeTheme,
 }

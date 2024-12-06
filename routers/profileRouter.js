@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // internal imports
-const { authencitation } = require("../middlewares/common/authencitation");
+const { authencitation } = require("../middlewares/common/authentication");
 
 const { 
     createProfileValidation, 
@@ -11,6 +11,10 @@ const {
     updateProfileValidation,
     updateProfileValidationHandler
 } = require("../middlewares/profile/profileValidator");
+const {
+    changeThemeValidation,
+    changeThemeValidationHandler,
+} = require("../middlewares/profile/changeThemeValidator");
 
 const imageUploader = require("../middlewares/profile/imageUploader");
 const multipleImageUpload = require("../middlewares/profile/multipleImageUpload");
@@ -20,6 +24,7 @@ const {
     createProfile,
     updateProfile,
     deleteProfile,
+    changeTheme,
  } = require("../controllers/profileController");
 
 
@@ -42,8 +47,15 @@ router.put("/edit-profile/:id",
     multipleImageUpload,
     updateProfileValidation,
     updateProfileValidationHandler,
-    updateProfile,
-    
+    updateProfile,  
+);
+// Change theme of profile
+router.put("/edit-profile-theme/:id",
+    authencitation,
+    changeThemeValidation,
+    changeThemeValidationHandler,
+    changeTheme
+      
 );
 
 module.exports = router;

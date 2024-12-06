@@ -4,6 +4,11 @@ const { check, validationResult } = require("express-validator");
 
 // header title validator
 const headerValidation = [
+    check("profileId")
+        .notEmpty()
+        .withMessage("Profile ID is missing")
+        .trim(),
+        
     check("title")
         .notEmpty()
         .withMessage("Header title is required")

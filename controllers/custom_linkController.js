@@ -40,24 +40,30 @@ async function getCustomLink(req,res) {
 
 // add link name and url
 async function addCustomLink(req,res) {
-    const {name,url} = req.body;
+
+    const {profileId,name,url} = req.body;
     try{
+        //create the custom link
         const newLink = await Prisma.customLink.create({
             data:{
                 name,
                 url,
             }
         });
+        // associate the customlink with the profile
+        await Prisma.profileCustomLink.create({
+            data:{
+                profileId,
+                customLinkId: newLink.id,
+            }
+        });
 
-        if(!newLink){
-            res.status(500).json("Internal server error!"); 
-        }
-        else{
-            res.status(201).json({
-                message: "Link added successfully!",
-                newLink,
-            });
-        }
+        res.status(201).json({
+            message: "Link added successfully!",
+            newLink,
+        });
+            
+        
     }
     catch(error){
         if(error){
@@ -67,6 +73,9 @@ async function addCustomLink(req,res) {
                 }
             });
         }
+    }finally { 
+        await Prisma.$disconnect(); 
+
     }  
 }
 
@@ -107,6 +116,9 @@ async function updateCustomLink(req,res) {
                 }
             });
         }
+    }finally { 
+        await Prisma.$disconnect(); 
+
     }  
 }
 
@@ -133,6 +145,9 @@ async function removeCustomLink(req,res) {
                 }
             });
         }
+    }finally { 
+        await Prisma.$disconnect(); 
+
     }
 }
 

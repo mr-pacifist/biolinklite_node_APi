@@ -4,7 +4,7 @@ const router = express.Router();
 
 // internal imports
 
-const {authencitation} = require("../middlewares/common/authencitation");
+const {authencitation} = require("../middlewares/common/authentication");
 
 const {
     customLinkValidation,

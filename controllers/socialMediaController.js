@@ -16,11 +16,13 @@ async function getSocialmedia(req,res) {
 // add  social media 
 
 async function addSocialmedia(req,res) {
-    const {socialMediaSubdirectory} = req.body;
+    const {profileId, socialMediaId} = req.body;
     try{
         const newSocialMedia = await Prisma.profileSocialMediaLink.create({
             data:{
-                socialMediaSubdirectory, 
+                profileId,
+                socialMediaId,
+                socialMediaSubdirectory: req.dataShare, 
             }
         });
 
@@ -49,26 +51,22 @@ async function addSocialmedia(req,res) {
 // update social media 
 
 async function updateSocialmedia(req,res) {
-    const {socialMediaSubdirectory} = req.body;
+    
     try{
         const updatedSocialMedia = await Prisma.profileSocialMediaLink.update({
             where:{
                 id: req.params.id,
             },
             data:{
-                socialMediaSubdirectory, 
+                socialMediaSubdirectory:req.dataShare, 
             }
         });
 
-        if(!updatedSocialMedia){
-            res.status(500).json("Internal server error!"); 
-        }
-        else{
             res.status(200).json({
                 message: "Updated successfully!",
                 updatedSocialMedia,
             });
-        }
+        
     }
     catch(error){
         if(error){

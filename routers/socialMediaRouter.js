@@ -4,11 +4,13 @@ const router = express.Router();
 
 
 // internal router
-const {authencitation} = require("../middlewares/common/authencitation");
+const {authencitation} = require("../middlewares/common/authentication");
 
 const {
     socialMediaUrlValidation,
-    socialMediaUrlValidationHandler
+    socialMediaUrlValidationHandler,
+    updateSocialMediaUrlValidation,
+    updateSocialMediaUrlValidationHandler
 } = require("../middlewares/socialMedia/socialMediaValidator");
 // split the url's subdiretories
 const splitSubdirectories = require("../utils/splitUrlSubdirectories");
@@ -35,10 +37,20 @@ router.post("/add",
 );
 
 // update social media
-router.put("/update/:id",authencitation );
+router.put("/update/:id",
+    authencitation,
+    updateSocialMediaUrlValidation,
+    updateSocialMediaUrlValidationHandler,
+    splitSubdirectories,
+    updateSocialmedia
+ );
 
 // remove social media
-router.delete("/remove/:id",authencitation );
+router.delete("/remove/:id",
+    authencitation,
+    removeSocialmedia
+
+);
 
 
 

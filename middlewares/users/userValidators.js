@@ -100,8 +100,8 @@ const loignValidators = [
     .trim(),
     
   check("password")
-   .isLength({ min: 6 })
-   .withMessage("Password must be 6 chars long")
+   .isLength({ min: 6 }, { max: 16 })
+   .withMessage("Password must be 6-16 chars long")
 
 ];
 // login validation handler

@@ -3,7 +3,8 @@ const express = require("express");
 const router = express.Router();
 
 // internal router
-const {authencitation} = require("../middlewares/common/authencitation");
+const {authencitation} = require("../middlewares/common/authentication");
+
 const {headerValidation, headerValidationHandler} = require("../middlewares/header/headerValidator");
 
 const {

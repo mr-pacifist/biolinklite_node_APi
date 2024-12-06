@@ -12,7 +12,7 @@ const profileRouter = require("./routers/profileRouter");
 const custom_linkRouter = require("./routers/custom_linkRouter");
 const headerRouter = require("./routers/headerRouter");
 const socialMediaRouter = require("./routers/socialMediaRouter");
-const seoRouter = require("./routers/seoRouter");
+
 
 // app configuration
 const app = express();

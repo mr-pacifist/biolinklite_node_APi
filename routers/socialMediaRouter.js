@@ -28,7 +28,7 @@ const {
 router.get("/",authencitation );
 
 // add social media
-router.post("/add",
+router.post("/add",//need to verify url contains corret social media or not
     authencitation,
     socialMediaUrlValidation,
     socialMediaUrlValidationHandler,

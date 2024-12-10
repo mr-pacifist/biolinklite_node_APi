@@ -5,6 +5,7 @@ CREATE TABLE `User` (
     `lastName` VARCHAR(191) NOT NULL,
     `userName` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NULL,
+    `phone` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -18,7 +19,7 @@ CREATE TABLE `User` (
 CREATE TABLE `Profile` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
-    `themeId` INTEGER NOT NULL DEFAULT 1,
+    `themeId` INTEGER NOT NULL DEFAULT 2,
     `name` VARCHAR(191) NOT NULL,
     `bio` VARCHAR(191) NOT NULL,
     `profilePhoto` VARCHAR(191) NOT NULL,
@@ -30,6 +31,27 @@ CREATE TABLE `Profile` (
     `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Profile_sub_directory_key`(`sub_directory`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Address` (
+    `id` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `city` VARCHAR(191) NOT NULL,
+    `state` VARCHAR(191) NOT NULL,
+    `postalCode` VARCHAR(191) NOT NULL,
+    `country` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `Address_userId_key`(`userId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Country` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -101,6 +123,9 @@ ALTER TABLE `Profile` ADD CONSTRAINT `Profile_themeId_fkey` FOREIGN KEY (`themeI
 
 -- AddForeignKey
 ALTER TABLE `Profile` ADD CONSTRAINT `Profile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Address` ADD CONSTRAINT `Address_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ProfileCustomLink` ADD CONSTRAINT `ProfileCustomLink_profileId_fkey` FOREIGN KEY (`profileId`) REFERENCES `Profile`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

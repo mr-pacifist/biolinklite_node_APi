@@ -11,6 +11,10 @@ const {
     loignValidationHandler,
  } = require("../middlewares/users/userValidators"); // validation middleware
 const {
+    updateUserValidation,
+    updateUserValidationHandler,
+ } = require("../middlewares/users/updateUserValidators"); // validation middleware
+const {
     changePasswordValidation,
     changePasswordValidationHandler,
  } = require("../middlewares/users/changePasswordValidator"); // validation middleware
@@ -26,7 +30,11 @@ const {addUser} = require("../controllers/registrationController");
 
 const {login, logout} = require("../controllers/loginController");
 
-const {changePassword} = require("../controllers/userController");
+const {
+    getUser,
+    updateUser,
+    changePassword,
+} = require("../controllers/userController");
 
 
 /*==================================
@@ -59,7 +67,21 @@ router.delete("/logout", logout);
 ========================================*/
 
 
+// get user 
+router.get("/:id",
+    authencitation,
+    getUser,
 
+);
+// User update
+router.patch("/update/:id",
+    authencitation,
+    updateUserValidation,
+    updateUserValidationHandler,
+    updateUser,
+);
+
+// password changing route
 router.put("/change-password/:id",
     authencitation,
     changePasswordValidation,

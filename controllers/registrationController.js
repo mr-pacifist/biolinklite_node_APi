@@ -1,6 +1,7 @@
 //external imports
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const createError = require("http-errors");
+
 
 
 // internal imports
@@ -19,32 +20,49 @@ async function addUser(req,res,next) {
                     lastName,
                     userName,
                     email: email || null,
+                    phone:"null",
                     password: hashedPassword            
                 }
             });
-            
-            // Object for new user to generate token
-            const userObject = {
-                userId: user.id,
-                displayName: user.firstName + " " + user.lastName,
-                userName: user.userName, 
-            }
-             req.dataShare = userObject;
 
-            next();  
-              
-        }catch(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!!",
+            // create user address
+            const userAddress = await Prisma.address.create({
+                data:{
+                    userId: user.id,
+                    city: 'null',
+                    state: 'null',
+                    postalCode: 'null',
+                    country: 'null',
                 }
             });
+            
+            if(user && user.id && userAddress){
+                // Object for new user to generate token
+                const userObject = {
+                    userId: user.id,
+                    displayName: user.firstName + " " + user.lastName,
+                    userName: user.userName, 
+                }
+                req.dataShare = userObject;
+
+                next();
+            }else{
+                throw createError("Registration faild!");
+            }
+              
+        }catch(error){
+            res.status(400).json({
+                errors: {
+                    common: {
+                      msg: error.message,
+                    },
+                  },
+            });
     
-        }
-        
+        }      
 }
 
 module.exports ={
     addUser,
-
+    
 }

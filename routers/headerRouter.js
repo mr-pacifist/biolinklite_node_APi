@@ -15,7 +15,7 @@ const {
 } = require("../controllers/headerController");
 
 // get header 
-router.get("/",);
+router.get("/:id",authencitation, getHeaderTitle);
 
 // add header
 router.post("/addHeader",
@@ -36,6 +36,5 @@ router.delete("/removeHeader/:id",
     authencitation,
     deleteHeaderTitle,
 );
-
 
 module.exports = router;

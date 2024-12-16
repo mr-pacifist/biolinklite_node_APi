@@ -130,7 +130,7 @@ const updateProfileValidation = [
   check("sub_directory")
       .notEmpty()
       .withMessage("Url sub directory is required")
-      .isLength({max:30})
+      .isLength({min:3},{max:50})
       .withMessage("URL sub directory is  too long")
       .customSanitizer(value => value.replace(/\s+/g, ''))
       .custom(async (value, { req }) =>{

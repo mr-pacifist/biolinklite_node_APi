@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 // internal imports
 const {notfoundHandler,errorHandler} = require("./middlewares/common/errorHandler");
 
+const biolinkRouter = require("./routers/biolinkRouter");
 const userRouter = require("./routers/userRouter");
 const profileRouter = require("./routers/profileRouter");
 const custom_linkRouter = require("./routers/custom_linkRouter");
@@ -28,7 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // routing setup
-// app.use("/", homeRouter);
+app.use("/", biolinkRouter);
 app.use("/user", userRouter);
 app.use("/profile", profileRouter );
 app.use("/custom_link", custom_linkRouter);
@@ -43,5 +44,5 @@ app.use(notfoundHandler);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () =>{
-    console.log(`Server started at ${process.env.SITE_URL}${process.env.PORT}`);
+    console.log(`Server started at ${process.env.APP_URL}${process.env.PORT}`);
 });

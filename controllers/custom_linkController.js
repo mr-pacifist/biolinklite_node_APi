@@ -1,41 +1,55 @@
 // external imports
-
+const createError = require("http-errors");
 
 // internal imports
 const Prisma = require("../prisma/prismaClient");
 
-
 //get link name and url
 async function getCustomLink(req,res) {
-    const linkIds = req.body.customLinkIds;
-    try{
-        const LinkList = await Prisma.customLink.findMany({
-            // where: {
-            //   id: {
-            //     in: linkIds,
-            //   },
-            // },
-          });
 
-          if(LinkList){
-            res.status(200).json(LinkList);
-          }else{
-            res.status(404).json({
-                error:{
-                    msg:"There is no link founded"
-                }
+    try{
+        // find custom link list for this exsisting profile 
+        const profileCustomlink = await Prisma.profileCustomLink.findMany({
+            where:{
+                profileId: req.params.id,
+            }
+        });
+
+        // find custom link
+        if(profileCustomlink){
+            const customLinkIds = profileCustomlink.map(link => link.customLinkId);
+
+             const customLinks = await Prisma.customLink.findMany({
+                 where: { 
+                    id: { 
+                        in: customLinkIds, 
+                    }, 
+                }, 
             });
-          }
+            // response the custom link list
+            if(customLinks){
+                res.status(200).json({
+                    customLinks
+                });
+            }else{
+                throw createError("Unable to find custom links");
+            }
+        }else{
+            throw createError("Unable to find links");
+        }
     }
     catch(error){
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
+        res.status(500).json({
+            error:{
+                common:{
+                    msg:error.message,
                 }
-            });
-        }
-    }   
+            }
+        });
+    }finally { 
+        await Prisma.$disconnect(); 
+
+    }    
 }
 
 // add link name and url
@@ -50,29 +64,32 @@ async function addCustomLink(req,res) {
                 url,
             }
         });
-        // associate the customlink with the profile
-        await Prisma.profileCustomLink.create({
-            data:{
-                profileId,
-                customLinkId: newLink.id,
-            }
-        });
+        if(newLink){
+            // associate the customlink with the profile
+            await Prisma.profileCustomLink.create({
+                data:{
+                    profileId,
+                    customLinkId: newLink.id,
+                }
+            });
 
-        res.status(201).json({
-            message: "Link added successfully!",
-            newLink,
-        });
-            
+            res.status(201).json({
+                message: "Link added successfully!",
+                newLink,
+            });
+        }else{
+            throw createError("Unable to add link")
+        }    
         
     }
     catch(error){
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
+        res.status(500).json({
+            error:{
+                common:{
+                    msg:error.message
                 }
-            });
-        }
+            }
+        });
     }finally { 
         await Prisma.$disconnect(); 
 
@@ -94,28 +111,25 @@ async function updateCustomLink(req,res) {
             }
           });
 
-        if(!updatedLink){
-            res.status(404).json({
-                error:{
-                    msg:"There is no link founded",
-                }
-            });  
-        }
-        else{
+        if(updatedLink){
             res.status(200).json({
                 message: "Updated successfully!",
                 updatedLink,
-            });  
+            }); 
+            
+        }
+        else{
+            throw createError("There is no link founded");  
         }
     }
     catch(error){
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
+        res.status(404).json({
+            error:{
+                common:{
+                    msg:error.message,
                 }
-            });
-        }
+            }
+        });
     }finally { 
         await Prisma.$disconnect(); 
 
@@ -130,21 +144,25 @@ async function removeCustomLink(req,res) {
               id:req.params.id,
             },
           });
+
+          if(deleteCustomLink){
+            res.status(200).json({
+                message:"Link deleted successfully."
+            });
+          }else{
+            throw createError("Unable to delete the link");
+          }
          
-        res.status(200).json({
-            message:"Link deleted successfully."
-        });
-          
     }
     catch(error){
-        
-        if(error){
             res.status(500).json({
                 error:{
-                    msg:"Could not delete the link!",
+                    common:{
+                        msg: error.message,
+                    }
                 }
             });
-        }
+        
     }finally { 
         await Prisma.$disconnect(); 
 

@@ -8,11 +8,37 @@ const fs = require("fs");
 const Prisma = require("../prisma/prismaClient");
 
 
+// get multiple profile 
+async function getMultipleProfile(req,res) {
+    try {
+        const profileList = await Prisma.profile.findMany({
+            where:{
+                userId:req.params.id,
+            }
+        });
 
-// get profile
+        if(profileList){
+            res.status(200).json({
+                profileList,
+            });
 
-async function getProfile(req,res) {
-    
+        }else{
+            throw createError("Unable to find profile");   
+        }
+        
+    } catch (error) {
+        res.status(500).json({
+            errors: {
+                common: {
+                  msg: error.message,
+                },
+              },
+        });   
+    }
+    finally { 
+        await Prisma.$disconnect(); 
+
+    }    
 }
 
 // Create a new profile
@@ -39,20 +65,19 @@ async function createProfile(req,res) {
                 }
             }
         });
-        
-        res.status(201).json({
-            message: "Profile successfully created",
-            newProfile
-        });
+
+        if(newProfile){
+            res.status(201).json({
+                message: "Profile successfully created",
+                newProfile
+            });
+        }else{
+            throw createError("Unable to create new profile");
+        } 
         
     } catch (error) {   
         if(error){    
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
-                    result:error.message,
-                }
-            });
+            
             if (req.files.length > 0) {
                 const filename  = req.files[0];               
                 fs.unlink(
@@ -62,6 +87,14 @@ async function createProfile(req,res) {
                   }
                 );
               }
+              //response the error
+              res.status(500).json({
+                errors: {
+                    common: {
+                      msg: error.message,
+                    },
+                  },
+            });
         }      
     }   
 }
@@ -120,13 +153,16 @@ async function updateProfile(req,res) {
             seo_title:req.body.seo_title,
             seo_description:req.body.seo_description,
             }
-        })
-         
-        res.status(200).json({
-            message:"Profile successfully updated!",
-            data:updateProfile,
         });
-        
+
+        if (updateProfile){
+            res.status(200).json({
+                message:"Profile successfully updated",
+            });
+        }else{
+            throw createError("Unable to update profile");
+        }
+          
     } catch (error) {
         if(error){ 
             // remove uploaded file
@@ -163,17 +199,66 @@ async function updateProfile(req,res) {
               }   
             res.status(500).json({
                 error:{
-                    msg:"Internal server errro!",
-                    result:error.message,
+                    common:{
+                        msg:error.message,
+                    }
                 }
             });
         }    
-    }
+    }finally { 
+        await Prisma.$disconnect(); 
+    } 
 }
 
 // delete user existing  profile
 async function deleteProfile(req,res) {
-    
+    try {
+        const deleteProfile = await Prisma.profile.delete({
+            where:{
+                id:req.params.id,
+            }
+        });
+
+        if(deleteProfile){
+            // remove profile photo
+            if(deleteProfile.profilePhoto){
+                fs.unlink(
+                    path.join(__dirname, `../public/profile-photo/${deleteProfile.profilePhoto}`),
+                    (error) => {  
+                      
+                    }
+                );
+            }
+            // remove  cover photo
+            if(deleteProfile.coverPhoto && deleteProfile.coverPhoto !== "null"){
+                fs.unlink(
+                    path.join(__dirname, `../public/profile-photo/${deleteProfile.coverPhoto}`),
+                    (error) => {
+                        
+                    }
+                  );
+            }   
+        
+            //send response
+            res.status(200).json({
+                message:"Profile deleted successfully!",
+            });
+            
+        }else{
+            throw createError("Unable to delete the profile");
+        }    
+    } catch (error) {
+        res.status(500).json({
+            errors: {
+                common: {
+                  msg: error.message,
+                }
+              }
+        });
+        
+    }finally { 
+        await Prisma.$disconnect(); 
+    } 
 }
 // delete user existing  profile
 async function changeTheme(req,res) {
@@ -186,26 +271,28 @@ async function changeTheme(req,res) {
                 themeId: req.body.themeId,
             }
         });
-
-        res.status(200).json({
-            message:"Theme updated successfully!",
-            updateTheme,
-        });
-        
-    } catch (error) {
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server error!",
-                }
+        if(updateTheme){
+            res.status(200).json({
+                message:"Theme updated successfully!",
             });
-        }    
-    } 
+        }else{
+            throw createError("Got trouble to update theme");
+        }   
+    } catch (error) {
+        res.status(500).json({
+            error:{
+                common:{
+                    msg:error.message
+                }
+            }
+        });    
+    }finally { 
+        await Prisma.$disconnect(); 
+    }  
 }
 
-
 module.exports = {
-    getProfile,
+    getMultipleProfile,
     createProfile,
     updateProfile,
     deleteProfile,

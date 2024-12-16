@@ -20,7 +20,7 @@ const imageUploader = require("../middlewares/profile/imageUploader");
 const multipleImageUpload = require("../middlewares/profile/multipleImageUpload");
 
 const { 
-    getProfile,
+    getMultipleProfile,
     createProfile,
     updateProfile,
     deleteProfile,
@@ -28,9 +28,13 @@ const {
  } = require("../controllers/profileController");
 
 
- // get user profile
+ // get multiple profile by user id
 
-router.get("/",authencitation );
+router.get("/:id",
+    authencitation,
+    getMultipleProfile,
+ );
+
 
 // Create profile
 router.post("/new-profile",
@@ -48,6 +52,13 @@ router.put("/edit-profile/:id",
     updateProfileValidation,
     updateProfileValidationHandler,
     updateProfile,  
+);
+
+// delete profile
+router.delete("/delete-profile/:id", 
+    authencitation,
+    deleteProfile,
+
 );
 // Change theme of profile
 router.put("/edit-profile-theme/:id",

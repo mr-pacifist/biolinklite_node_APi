@@ -1,9 +1,53 @@
+// external imports
+const createError = require("http-errors");
 
 // internal imports
 const Prisma = require("../prisma/prismaClient")
 
 async function getHeaderTitle(req,res) {
-    
+    try {
+        // find header list for the exsisting profile
+        const profile_headers = await Prisma.profileHeader.findMany({
+            where:{
+                profileId: req.params.id,
+            }
+        });
+
+        // find headers
+        if(profile_headers){
+            const headerIds = profile_headers.map(heading => heading.headerId);
+            const headers = await Prisma.header.findMany({
+                where:{
+                    id:{
+                        in: headerIds,
+                    }
+                }
+            });
+            // response the custom link list
+            if(headers){
+                res.status(200).json({
+                    headers
+                });
+            }else{
+                throw createError("Unable to find headers");
+            }
+                        
+        }else{
+            throw createError("Unable to find links");
+        }
+        
+    } catch (error) {
+        res.status(500).json({
+            error:{
+                common:{
+                    msg:error.message,
+                }
+            }
+        });
+        
+    }finally { 
+        await Prisma.$disconnect(); 
+    }    
 }
 
 // Add Header title
@@ -17,8 +61,9 @@ async function addHeaderTitle(req,res) {
                 title,
             }
         });
-        // Associate the header with the profile
 
+        if(newHeader){
+             // Associate the header with the profile
         await Prisma.profileHeader.create({
             data:{
                 profileId,
@@ -30,19 +75,20 @@ async function addHeaderTitle(req,res) {
             message: "Header added successfully!",
             newHeader,
         });
-
+        }else{
+            throw createError("Unable to add header")
+        }
 
     }
     catch(error){
-        console.log(error.message);
-        
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
+        res.status(400).json({
+            error:{
+                common:{
+                    msg:error.message,
                 }
-            });
-        }
+            }
+        });
+            
     } 
     finally { 
         await Prisma.$disconnect(); 
@@ -62,30 +108,28 @@ async function updateHeaderTitle(req,res) {
             }
         });
 
-        if(!updatedHeader){
-            res.status(500).json("Internal server error!");  
-        }
-        else{
+        if(updatedHeader){
             res.status(200).json({
                 message: "Header updated successfully!",
                 updatedHeader,
             });
+             
+        }
+        else{
+            throw createError("Unable to update header");
         }
 
     }
     catch(error){
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
-                }
-            });
-        }
+        res.status(500).json({
+            error:{
+                msg:error.message,
+            }
+        });
+        
     }finally { 
         await Prisma.$disconnect(); 
-
     } 
-    
 }
 
 async function deleteHeaderTitle(req,res) {
@@ -95,25 +139,28 @@ async function deleteHeaderTitle(req,res) {
               id:req.params.id,
             },
           });
-         
-        res.status(200).json({
-            message:"Header successfully removed!"
-        });    
+          
+          if(deleteHeader){
+            res.status(200).json({
+                message:"Header successfully removed!"
+            }); 
+          }else{
+            throw createError("Header not deleted");
+          }  
     }
     catch(error){
-        if(error){
-            res.status(404).json({
-                error:{
-                    msg:"Header not founded!",
-                }
-            });
-        }
+        res.status(400).json({
+            error:{
+                common:{
+                    msg:error.message,
+                }  
+            }
+        });
     }finally { 
         await Prisma.$disconnect(); 
 
     }
 }
-    
 
 module.exports={
     getHeaderTitle,

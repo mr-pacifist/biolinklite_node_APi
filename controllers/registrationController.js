@@ -44,7 +44,6 @@ async function addUser(req,res,next) {
                     userName: user.userName, 
                 }
                 req.dataShare = userObject;
-
                 next();
             }else{
                 throw createError("Registration faild!");
@@ -59,6 +58,8 @@ async function addUser(req,res,next) {
                   },
             });
     
+        }finally { 
+            await Prisma.$disconnect(); 
         }      
 }
 

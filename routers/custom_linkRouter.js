@@ -19,10 +19,9 @@ const {
 
 } = require("../controllers/custom_linkController");
 
+// get custom link by profile id
 
-
-
-router.get("/",authencitation, getCustomLink);
+router.get("/:id",authencitation, getCustomLink);
 
 // add custom link
 router.post("/add", 

@@ -17,15 +17,19 @@ const splitSubdirectories = require("../utils/splitUrlSubdirectories");
 
 // controllers
 const {
-    getSocialmedia,
+    getSocialmediaList,
+    getProfileSocialmedia,
     addSocialmedia,
     updateSocialmedia,
     removeSocialmedia
 } = require("../controllers/socialMediaController");
 
 
-// get social media
-router.get("/",authencitation );
+// get social media list
+router.get("/socialmedia-list",authencitation, getSocialmediaList );
+
+// get profile social media
+router.get("/:id",authencitation, getProfileSocialmedia );
 
 // add social media
 router.post("/add",//need to verify url contains corret social media or not
@@ -51,7 +55,5 @@ router.delete("/remove/:id",
     removeSocialmedia
 
 );
-
-
 
 module.exports = router;

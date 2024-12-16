@@ -41,7 +41,7 @@ async function login(req, res,next) {
       throw createError("Login failed! Please try with correct username and password");
     }
   } catch (err) {
-    res.json({
+    res.status(400).json({
       data: {
         userName: req.body.userName,
       },

@@ -51,7 +51,9 @@ async function getUser(req,res) {
               },
         });
         
-    }
+    }finally { 
+        await Prisma.$disconnect(); 
+    } 
     
 }
 
@@ -132,8 +134,9 @@ async function updateUser(req,res) {
               },
         });
         
-    }
-       
+    }finally { 
+        await Prisma.$disconnect(); 
+    }       
 }
 
 // update user password
@@ -186,7 +189,9 @@ async function changePassword(req,res) {
               },
         });
         
-    }
+    }finally { 
+        await Prisma.$disconnect(); 
+    } 
     
 }
 

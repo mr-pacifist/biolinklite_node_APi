@@ -1,17 +1,88 @@
-
+const createError = require("http-errors");
 
 // internal imports
-
 const Prisma = require("../prisma/prismaClient");
 
-
-
 // get all social media 
-
-async function getSocialmedia(req,res) {
-    
+async function getSocialmediaList(req,res) {
+    try {
+        const socialMedias = await Prisma.socialMedia.findMany();
+        // get socialmedia
+        if(socialMedias){
+            socialMedias.forEach(media => {
+                media.icon = `${process.env.SITE_URL}${media.icon}`; 
+            });
+            res.status(200).json(socialMedias); 
+            // response all social media and icon
+               
+        }else{
+            throw createError("Profile dosen't contain any socialmedia");
+        }
+        
+    } catch (error) {
+        res.status(404).json({
+            error:{
+                common:{
+                    msg:error.message,
+                }
+            }
+        });
+        
+    }finally { 
+        await Prisma.$disconnect(); 
+    } 
 }
+// get all profile social media 
+async function getProfileSocialmedia(req,res) {
+    try {
+        // find social medias for the exsisting profile
+        const profileSocialmedia = await Prisma.profileSocialMediaLink.findMany({
+            where:{
+                profileId: profile.id,
+            }
+        });
 
+        // get socialmedia
+        if(profileSocialmedia){
+            const socialMediaIds = profileSocialmedia.map(socialMedia => socialMedia.socialMediaId);
+            const socialMedias = await Prisma.socialMedia.findMany({
+                where:{
+                    id:{
+                        in: socialMediaIds,
+                    }
+                }
+            });
+            // response all social media and icon
+        
+            const socialMediaLinks = profileSocialmedia.map(profileSocialmedia => { 
+            const socialMedia = socialMedias.find(s => s.id === profileSocialmedia.socialMediaId); 
+            if (socialMedia) { 
+                return { 
+                    id: profileSocialmedia.id, 
+                    profileId: profileSocialmedia.profileId, 
+                    name: socialMedia.name, 
+                    socialMediaId: profileSocialmedia.socialMediaId, 
+                    url: socialMedia.url + profileSocialmedia.socialMediaSubdirectory,
+                    icon: process.env.SITE_URL + socialMedia.icon }; 
+                } return null; }).filter(Boolean); 
+            res.status(200).json({socialMediaLinks});        
+        }else{
+            throw createError("Profile dosen't contain any socialmedia");
+        }
+        
+    } catch (error) {
+        res.status(404).json({
+            error:{
+                common:{
+                    msg:error.message,
+                }
+            }
+        });
+        
+    }finally { 
+        await Prisma.$disconnect(); 
+    } 
+}
 
 // add  social media 
 
@@ -27,7 +98,7 @@ async function addSocialmedia(req,res) {
         });
 
         if(!newSocialMedia){
-            res.status(500).json("Internal server error!"); 
+            throw createError("Unable to add social media");
         }
         else{
             res.status(200).json({
@@ -37,16 +108,17 @@ async function addSocialmedia(req,res) {
         }
     }
     catch(error){
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
+        res.status(500).json({
+            error:{
+                common:{
+                    msg:error.message,
                 }
-            });
-        }
+            }
+        });
+    }finally { 
+        await Prisma.$disconnect(); 
     }  
-}
-    
+}  
 
 // update social media 
 
@@ -62,23 +134,27 @@ async function updateSocialmedia(req,res) {
             }
         });
 
+        if(updateSocialmedia){
             res.status(200).json({
                 message: "Updated successfully!",
                 updatedSocialMedia,
             });
-        
+        }else{
+            throw createError("Unable to update social media");
+        }      
     }
     catch(error){
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Internal server errro!",
+        res.status(400).json({
+            error:{
+                common:{
+                    msg:error.message,
                 }
-            });
-        }
+            }
+        });
+    }finally { 
+        await Prisma.$disconnect(); 
     }  
 }
-
 
 // remove social media 
 
@@ -89,26 +165,31 @@ async function removeSocialmedia(req,res) {
               id:req.params.id,
             },
           });
-         
-        res.status(200).json({
-            message:"Social media deleted successfully."
-        });   
+          if (deleteSocialMedia) {
+            res.status(200).json({
+                message:"Social media deleted successfully."
+            }); 
+          }else{
+            throw createError("social media not found");
+          }
+                
     }
     catch(error){
-        
-        if(error){
-            res.status(500).json({
-                error:{
-                    msg:"Could not delete the Social media!",
+        res.status(404).json({
+            error:{
+                common:{
+                    msg:error.message
                 }
-            });
-        }
+            }
+        });
+    }finally { 
+        await Prisma.$disconnect(); 
     }
 }
 
-
 module.exports = {
-    getSocialmedia,
+    getSocialmediaList,
+    getProfileSocialmedia,
     addSocialmedia,
     updateSocialmedia,
     removeSocialmedia

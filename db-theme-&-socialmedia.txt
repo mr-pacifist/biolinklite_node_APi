@@ -1,0 +1,13 @@
+Theme========
+INSERT INTO biolink_lite.theme (id, name) VALUES (1, 'Basic'), (2, 'Sky blue'), (3, 'Ocean'), (4, 'Colorful'), (5, 'Desert'), (6, 'Minimal');
+
+Social media==========
+INSERT INTO biolink_lite.socialmedia(id, name,url,icon) VALUES 
+(1, 'gmail','','socialmedia_icon/email-icon.png'),
+(2,'facebook','https://www.facebook.com/','socialmedia_icon/facebook-icon.png'), 
+(3,'instagram','https://www.instagram.com/','socialmedia_icon/instagram-icon.png'),
+(4,'linkedin','https://www.linkedin.com/','socialmedia_icon/linkedin-icon.png'),
+(5,'phone','','socialmedia_icon/phone-icon.png'),
+(6,'pinterest','https://www.pinterest.com/','socialmedia_icon/pinterest-icon.png'),
+(7,'twitter','https://www.x.com/','socialmedia_icon/twitter-icon.png'),
+(8,'youtube','https://www.youtube.com/','socialmedia_icon/youtube-icon.png');

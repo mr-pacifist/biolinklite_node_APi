@@ -1,0 +1,1322 @@
+{
+	"info": {
+		"_postman_id": "a8c5069b-6480-4a28-8c35-bced0d5d4d56",
+		"name": "Biolink_lite_Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32822628"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\":\"\",\n\t\"lastName\":\"\",\n\t\"userName\": \"\",\n    \"email\":\"\",\n\t\"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"user",
+								"register"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": [
+						{
+							"name": "Post data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\":\"piash\",\n\t\"lastName\":\"udding\",\n\t\"userName\": \"yujhjtys0364\",\n\t\"password\": \"jhjhyhgy7676\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "Biolinklite=s%3AeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWQ2OGVkNi00Yjc4LTQ3NWMtYjc5MS02OWUwODczNmE1NTgiLCJkaXNwbGF5TmFtZSI6InBpYXNoIHVkZGluZyIsInVzZXJOYW1lIjoieXVqaGp0eXMwMzY0IiwibG9naW4iOnRydWUsImlhdCI6MTczMTU5MTU5NSwiZXhwIjoxNzMxNzY0Mzk1fQ.o0tkqCf3bjFVza2NOWBauo_JZpRzDBDKqLbZo2HIp6U.QE%2FZ2vVjIid4%2B3Str6qo8xq6%2FYQf23rlAuy1D00bPVM; Max-Age=172800; Path=/; Expires=Sat, 16 Nov 2024 13:39:55 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 13:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\"userName\": \"\",\n\t\"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": [
+						{
+							"name": "Post data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\":\"piash\",\n\t\"lastName\":\"udding\",\n\t\"userName\": \"yujhjtys0364\",\n\t\"password\": \"jhjhyhgy7676\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "Biolinklite=s%3AeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWQ2OGVkNi00Yjc4LTQ3NWMtYjc5MS02OWUwODczNmE1NTgiLCJkaXNwbGF5TmFtZSI6InBpYXNoIHVkZGluZyIsInVzZXJOYW1lIjoieXVqaGp0eXMwMzY0IiwibG9naW4iOnRydWUsImlhdCI6MTczMTU5MTU5NSwiZXhwIjoxNzMxNzY0Mzk1fQ.o0tkqCf3bjFVza2NOWBauo_JZpRzDBDKqLbZo2HIp6U.QE%2FZ2vVjIid4%2B3Str6qo8xq6%2FYQf23rlAuy1D00bPVM; Max-Age=172800; Path=/; Expires=Sat, 16 Nov 2024 13:39:55 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 13:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/user/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"user",
+								"logout"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": [
+						{
+							"name": "Post data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\":\"piash\",\n\t\"lastName\":\"udding\",\n\t\"userName\": \"yujhjtys0364\",\n\t\"password\": \"jhjhyhgy7676\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "Biolinklite=s%3AeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWQ2OGVkNi00Yjc4LTQ3NWMtYjc5MS02OWUwODczNmE1NTgiLCJkaXNwbGF5TmFtZSI6InBpYXNoIHVkZGluZyIsInVzZXJOYW1lIjoieXVqaGp0eXMwMzY0IiwibG9naW4iOnRydWUsImlhdCI6MTczMTU5MTU5NSwiZXhwIjoxNzMxNzY0Mzk1fQ.o0tkqCf3bjFVza2NOWBauo_JZpRzDBDKqLbZo2HIp6U.QE%2FZ2vVjIid4%2B3Str6qo8xq6%2FYQf23rlAuy1D00bPVM; Max-Age=172800; Path=/; Expires=Sat, 16 Nov 2024 13:39:55 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 13:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful!\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "get profile list by user id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/profile/396041ee-8746-4511-9e47-534a592af65b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"profile",
+								"396041ee-8746-4511-9e47-534a592af65b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get profile by profile id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Create profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userId",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "profilePhoto",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "sub_directory",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3333/profile/new-profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"profile",
+								"new-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePhoto",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "coverPhoto",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sub_directory",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "seo_title",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "seo_description",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3333/profile/edit-profile/8e845ba3-ea6d-4adb-8dcc-1da8c2e51835",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"profile",
+								"edit-profile",
+								"8e845ba3-ea6d-4adb-8dcc-1da8c2e51835"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change theme by profile id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"themeId\":4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/profile/edit-profile-theme/a7cf692b-3960-409d-893c-a43f7d3aeb38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"profile",
+								"edit-profile-theme",
+								"a7cf692b-3960-409d-893c-a43f7d3aeb38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete profile",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/profile/delete-profile/a6788083-4ab2-4c82-ad3d-8ad120b68d93",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"profile",
+								"delete-profile",
+								"a6788083-4ab2-4c82-ad3d-8ad120b68d93"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Custom Link",
+			"item": [
+				{
+					"name": "Get custom link by profile id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/custom_link/246345e1-bc69-4ad9-a02e-d156307cc2ec",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"custom_link",
+								"246345e1-bc69-4ad9-a02e-d156307cc2ec"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": [
+						{
+							"name": "Post data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/custom_link/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"custom_link",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "Biolinklite=s%3AeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWQ2OGVkNi00Yjc4LTQ3NWMtYjc5MS02OWUwODczNmE1NTgiLCJkaXNwbGF5TmFtZSI6InBpYXNoIHVkZGluZyIsInVzZXJOYW1lIjoieXVqaGp0eXMwMzY0IiwibG9naW4iOnRydWUsImlhdCI6MTczMTU5MTU5NSwiZXhwIjoxNzMxNzY0Mzk1fQ.o0tkqCf3bjFVza2NOWBauo_JZpRzDBDKqLbZo2HIp6U.QE%2FZ2vVjIid4%2B3Str6qo8xq6%2FYQf23rlAuy1D00bPVM; Max-Age=172800; Path=/; Expires=Sat, 16 Nov 2024 13:39:55 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 13:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Custom link add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"profileId\": \"246345e1-bc69-4ad9-a02e-d156307cc2ec\",\n\t\"name\": \"a2z-web\",\n    \"url\":\"a2z-web.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/custom_link/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"custom_link",
+								"add"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": [
+						{
+							"name": "Post data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\":\"piash\",\n\t\"lastName\":\"udding\",\n\t\"userName\": \"yujhjtys0364\",\n\t\"password\": \"jhjhyhgy7676\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "Biolinklite=s%3AeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWQ2OGVkNi00Yjc4LTQ3NWMtYjc5MS02OWUwODczNmE1NTgiLCJkaXNwbGF5TmFtZSI6InBpYXNoIHVkZGluZyIsInVzZXJOYW1lIjoieXVqaGp0eXMwMzY0IiwibG9naW4iOnRydWUsImlhdCI6MTczMTU5MTU5NSwiZXhwIjoxNzMxNzY0Mzk1fQ.o0tkqCf3bjFVza2NOWBauo_JZpRzDBDKqLbZo2HIp6U.QE%2FZ2vVjIid4%2B3Str6qo8xq6%2FYQf23rlAuy1D00bPVM; Max-Age=172800; Path=/; Expires=Sat, 16 Nov 2024 13:39:55 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 13:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Custom link update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"profileId\": \"a7cf692b-3960-409d-893c-a43f7d3aeb38\",\n\t\"name\": \"a2z-web\",\n    \"url\":\"a2z-web.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/custom_link/edit/8408eec7-9796-44e4-92da-d23be178c065",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"custom_link",
+								"edit",
+								"8408eec7-9796-44e4-92da-d23be178c065"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": [
+						{
+							"name": "Post data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\":\"piash\",\n\t\"lastName\":\"udding\",\n\t\"userName\": \"yujhjtys0364\",\n\t\"password\": \"jhjhyhgy7676\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "Biolinklite=s%3AeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWQ2OGVkNi00Yjc4LTQ3NWMtYjc5MS02OWUwODczNmE1NTgiLCJkaXNwbGF5TmFtZSI6InBpYXNoIHVkZGluZyIsInVzZXJOYW1lIjoieXVqaGp0eXMwMzY0IiwibG9naW4iOnRydWUsImlhdCI6MTczMTU5MTU5NSwiZXhwIjoxNzMxNzY0Mzk1fQ.o0tkqCf3bjFVza2NOWBauo_JZpRzDBDKqLbZo2HIp6U.QE%2FZ2vVjIid4%2B3Str6qo8xq6%2FYQf23rlAuy1D00bPVM; Max-Age=172800; Path=/; Expires=Sat, 16 Nov 2024 13:39:55 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 13:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Custom link delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/custom_link/remove/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"custom_link",
+								"remove",
+								""
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": [
+						{
+							"name": "Post data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"firstName\":\"piash\",\n\t\"lastName\":\"udding\",\n\t\"userName\": \"yujhjtys0364\",\n\t\"password\": \"jhjhyhgy7676\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3333/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3333",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "Biolinklite=s%3AeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMWQ2OGVkNi00Yjc4LTQ3NWMtYjc5MS02OWUwODczNmE1NTgiLCJkaXNwbGF5TmFtZSI6InBpYXNoIHVkZGluZyIsInVzZXJOYW1lIjoieXVqaGp0eXMwMzY0IiwibG9naW4iOnRydWUsImlhdCI6MTczMTU5MTU5NSwiZXhwIjoxNzMxNzY0Mzk1fQ.o0tkqCf3bjFVza2NOWBauo_JZpRzDBDKqLbZo2HIp6U.QE%2FZ2vVjIid4%2B3Str6qo8xq6%2FYQf23rlAuy1D00bPVM; Max-Age=172800; Path=/; Expires=Sat, 16 Nov 2024 13:39:55 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 14 Nov 2024 13:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful!\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Header",
+			"item": [
+				{
+					"name": "Get header by profile id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/header/246345e1-bc69-4ad9-a02e-d156307cc2ec",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"header",
+								"246345e1-bc69-4ad9-a02e-d156307cc2ec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add header",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profileId\":\"246345e1-bc69-4ad9-a02e-d156307cc2ec\",\r\n    \"title\":\"Profile Header\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/header/addHeader",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"header",
+								"addHeader"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update header",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profileId\":\"a7cf692b-3960-409d-893c-a43f7d3aeb38\",\r\n    \"title\":\"My Biolink\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/header/updateHeader/f2dd5c43-d9b0-47af-be1f-7485fb20d4b2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"header",
+								"updateHeader",
+								"f2dd5c43-d9b0-47af-be1f-7485fb20d4b2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove header",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/header/removeHeader/a7bc5dcb-d307-4c24-8026-2a4fe161ef51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"header",
+								"removeHeader",
+								"a7bc5dcb-d307-4c24-8026-2a4fe161ef51"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Social-media",
+			"item": [
+				{
+					"name": "Get social media list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/socialMedia/socialmedia-list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"socialMedia",
+								"socialmedia-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get social media by profile id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/socialMedia/246345e1-bc69-4ad9-a02e-d156307cc2ec",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"socialMedia",
+								"246345e1-bc69-4ad9-a02e-d156307cc2ec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add social media",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profileId\":\"246345e1-bc69-4ad9-a02e-d156307cc2ec\",\r\n    \"socialMediaId\":\"7\",\r\n    \"url\":\"https://www.x.com/green-peace\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/socialMedia/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"socialMedia",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update social media",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"url\":\"\",\r\n    \"socialMediaId\": 1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/socialMedia/update/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"socialMedia",
+								"update",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove social media",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/socialMedia/remove/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"socialMedia",
+								"remove",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/user/396041ee-8746-4511-9e47-534a592af65b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"user",
+								"396041ee-8746-4511-9e47-534a592af65b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"the kowser\",\r\n    \"lastName\":\"boss\",\r\n    \"phone\":\"+8801775566777\",\r\n    \"email\":\"koserahamed@gmail.com\",\r\n    \"city\":\"Mymanshing\",\r\n    \"state\":\"janina\",\r\n    \"postalCode\":\"7200\",\r\n    \"country\":\"Bangladesh\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/user/update/396041ee-8746-4511-9e47-534a592af65b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"user",
+								"update",
+								"396041ee-8746-4511-9e47-534a592af65b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Biolink",
+			"item": [
+				{
+					"name": "Get biolink by link",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/designer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"designer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

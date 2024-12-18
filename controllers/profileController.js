@@ -225,6 +225,7 @@ async function updateProfile(req,res) {
         if (updateProfile){
             res.status(200).json({
                 message:"Profile successfully updated",
+                updateProfile,
             });
         }else{
             throw createError("Unable to update profile");

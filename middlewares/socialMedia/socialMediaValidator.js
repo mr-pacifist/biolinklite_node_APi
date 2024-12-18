@@ -18,7 +18,11 @@ const socialMediaUrlValidation = [
         .custom((value, { req }) => {
             const socialMediaId = parseInt(req.body.socialMediaId, 10);
             if ([1, 5].includes(socialMediaId)) {
-                return true;
+                if(!value){
+                    throw new Error("This field is required");
+                }else{
+                    return true;
+                }  
             }
             if (!value) {
                 throw new Error("Url is required");

@@ -9,6 +9,67 @@ const Prisma = require("../prisma/prismaClient");
 
 
 // get multiple profile 
+async function getSingleProfile(req,res) {
+    try {
+        const profile = await Prisma.profile.findUnique({
+            where:{
+                id:req.params.id,
+            }
+        });
+
+        if(profile){
+            let biolinkProfile;
+            const profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
+            const coverPhotoPath = `${process.env.SITE_URL}cover-photo/`;
+
+            if(profile.coverPhoto && profile.coverPhoto !== "null"){
+                biolinkProfile = {
+                    id:profile.id,
+                    userId:profile.userId,
+                    themeId:profile.themeId,
+                    name:profile.name,
+                    bio:profile.bio,
+                    profilePhoto: profilePhotoPath + profile.profilePhoto, 
+                    coverPhoto: coverPhotoPath + profile.coverPhoto,
+                    sub_directory:profile.sub_directory,
+                    seo_title:profile.seo_title,
+                    seo_description:profile.seo_description,
+                };
+            }else{
+                biolinkProfile = {
+                    themeId:profile.themeId,
+                    name:profile.name,
+                    bio:profile.bio,
+                    profilePhoto: profilePhotoPath + profile.profilePhoto,
+                    sub_directory:profile.sub_directory,
+                    seo_title:profile.seo_title,
+                    seo_description:profile.seo_description,
+                };
+            }
+            
+            res.status(200).json(
+                biolinkProfile,
+            );
+
+        }else{
+            throw createError("Unable to find profile");   
+        }
+        
+    } catch (error) {
+        res.status(500).json({
+            errors: {
+                common: {
+                  msg: error.message,
+                },
+              },
+        });   
+    }
+    finally { 
+        await Prisma.$disconnect(); 
+
+    }    
+}
+// get multiple profile 
 async function getMultipleProfile(req,res) {
     try {
         const profileList = await Prisma.profile.findMany({
@@ -17,9 +78,16 @@ async function getMultipleProfile(req,res) {
             }
         });
 
+        const profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
+
         if(profileList){
+            const updatedProfileList = profileList.map(profile => ({ 
+                ...profile, 
+                profilePhoto: `${profilePhotoPath}${profile.profilePhoto}` 
+            }));
+
             res.status(200).json({
-                profileList,
+                updatedProfileList,
             });
 
         }else{
@@ -137,8 +205,7 @@ async function updateProfile(req,res) {
                     }
                   );
             }
-        }
-        
+        }     
         // update profile with new data
         const updateProfile = await Prisma.profile.update({
             where:{
@@ -292,6 +359,7 @@ async function changeTheme(req,res) {
 }
 
 module.exports = {
+    getSingleProfile,
     getMultipleProfile,
     createProfile,
     updateProfile,

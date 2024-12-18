@@ -33,8 +33,6 @@ const registrationValidators = [
     .withMessage("User name can't be empty")
     .isLength({min:5},{max:20})
     .withMessage("User name must contain 5-20 character")
-    .isAlphanumeric()
-    .withMessage("Use alphabet and number")
     .toLowerCase()
     .custom(async (value) => {
         try {

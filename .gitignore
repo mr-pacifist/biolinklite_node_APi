@@ -1,6 +1,4 @@
 node_modules
 .env
 help.txt
-public/cover-photo
-public/profile-photo
 prisma/migrations

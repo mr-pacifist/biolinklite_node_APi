@@ -5,6 +5,8 @@ const router = express.Router();
 // internal router
 const {authencitation} = require("../middlewares/common/authentication");
 
+const limiter = require("../middlewares/common/limiter");
+
 const {headerValidation, headerValidationHandler} = require("../middlewares/header/headerValidator");
 
 const {
@@ -15,7 +17,7 @@ const {
 } = require("../controllers/headerController");
 
 // get header 
-router.get("/:id",authencitation, getHeaderTitle);
+router.get("/:id", limiter, authencitation, getHeaderTitle);
 
 // add header
 router.post("/addHeader",

@@ -3,3 +3,4 @@ node_modules
 help.txt
 public/cover-photo
 public/profile-photo
+prisma/migrations

@@ -19,6 +19,8 @@ const {
 const imageUploader = require("../middlewares/profile/imageUploader");
 const multipleImageUpload = require("../middlewares/profile/multipleImageUpload");
 
+const limiter = require("../middlewares/common/limiter");
+
 const { 
     getMultipleProfile,
     createProfile,
@@ -31,6 +33,7 @@ const {
  // get multiple profile by user id
 
 router.get("/:id",
+    limiter,
     authencitation,
     getMultipleProfile,
  );

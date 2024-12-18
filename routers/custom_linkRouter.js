@@ -11,6 +11,8 @@ const {
     customLinkValidationHandler,
 } = require("../middlewares/customLink/customLinkValidator");
 
+const limiter = require("../middlewares/common/limiter");
+
 const {
     getCustomLink,
     addCustomLink,
@@ -21,7 +23,7 @@ const {
 
 // get custom link by profile id
 
-router.get("/:id",authencitation, getCustomLink);
+router.get("/:id",limiter,authencitation, getCustomLink);
 
 // add custom link
 router.post("/add", 

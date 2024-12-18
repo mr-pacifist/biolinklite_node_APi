@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -97,14 +97,14 @@ model ProfileHeader {
 model ProfileSocialMediaLink {
   id                         String @id @default(uuid())
   profileId                  String
-  socialMediaId              String
+  socialMediaId              Int
   socialMediaSubdirectory    String
   Profile       Profile @relation(fields: [profileId], references: [id])
   SocialMedia   SocialMedia @relation(fields: [socialMediaId], references: [id])
 }
 
 model SocialMedia {
-  id                     String @id @default(uuid())
+  id                     Int @id @default(autoincrement())
   name                   String
   url                    String
   icon                   String
@@ -112,7 +112,7 @@ model SocialMedia {
 }
 
 model Theme {
-  id      Int @id
+  id      Int @id @default(autoincrement())
   name    String
   Profile Profile[]
 }

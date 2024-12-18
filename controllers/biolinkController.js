@@ -35,13 +35,16 @@ async function getBiolink(req,res) {
             if(profileCustomlink){
                 const customLinkIds = profileCustomlink.map(link => link.customLinkId);
 
-                 customLinks = await Prisma.customLink.findMany({
+                 const getAllCustomlink = await Prisma.customLink.findMany({
                      where: { 
                         id: { 
                             in: customLinkIds, 
                         }, 
                     }, 
                 });
+
+                const {id, ...filterLinks} = getAllCustomlink;
+                customLinks = filterLinks;
             }
 
             // find header list for the exsisting profile
@@ -54,13 +57,15 @@ async function getBiolink(req,res) {
             // find headers
             if(profile_headers){
                 const headerIds = profile_headers.map(heading => heading.headerId);
-                headers = await Prisma.header.findMany({
+                const getAllHeaders = await Prisma.header.findMany({
                     where:{
                         id:{
                             in: headerIds,
                         }
                     }
                 });
+                const {id, ...filterHeader} = getAllHeaders;
+                headers = filterHeader;
             }
             // find social medias for the exsisting profile
             const profileSocialmedia = await Prisma.profileSocialMediaLink.findMany({
@@ -84,9 +89,7 @@ async function getBiolink(req,res) {
                 socialMediaLinks = profileSocialmedia.map(profileSocialmedia => { 
                 const socialMedia = socialMedias.find(s => s.id === profileSocialmedia.socialMediaId); 
                 if (socialMedia) { 
-                    return { 
-                        id: profileSocialmedia.id, 
-                        profileId: profileSocialmedia.profileId, 
+                    return {  
                         name: socialMedia.name, 
                         socialMediaId: profileSocialmedia.socialMediaId, 
                         url: socialMedia.url + profileSocialmedia.socialMediaSubdirectory.replace(/^\//, ''), // Remove leading slash if present 
@@ -101,8 +104,6 @@ async function getBiolink(req,res) {
 
             if(profile.coverPhoto && profile.coverPhoto !== "null"){
                 biolinkProfile = {
-                    id:profile.id,
-                    userId:profile.userId,
                     themeId:profile.themeId,
                     name:profile.name,
                     bio:profile.bio,
@@ -114,8 +115,6 @@ async function getBiolink(req,res) {
                 };
             }else{
                 biolinkProfile = {
-                    id:profile.id,
-                    userId:profile.userId,
                     themeId:profile.themeId,
                     name:profile.name,
                     bio:profile.bio,

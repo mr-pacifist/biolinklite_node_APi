@@ -26,6 +26,8 @@ const { authencitation,checkLogin} = require("../middlewares/common/authenticati
 
 const setCookies = require("../middlewares/common/setcookies"); 
 
+const limiter = require("../middlewares/common/limiter");
+
 const {addUser} = require("../controllers/registrationController");
 
 const {login, logout} = require("../controllers/loginController");
@@ -69,6 +71,7 @@ router.delete("/logout", logout);
 
 // get user 
 router.get("/:id",
+    limiter,
     authencitation,
     getUser,
 

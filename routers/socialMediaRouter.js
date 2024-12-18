@@ -15,6 +15,8 @@ const {
 // split the url's subdiretories
 const splitSubdirectories = require("../utils/splitUrlSubdirectories");
 
+const limiter = require("../middlewares/common/limiter");
+
 // controllers
 const {
     getSocialmediaList,
@@ -26,7 +28,7 @@ const {
 
 
 // get social media list
-router.get("/socialmedia-list",authencitation, getSocialmediaList );
+router.get("/socialmedia-list", limiter, authencitation, getSocialmediaList );
 
 // get profile social media
 router.get("/:id",authencitation, getProfileSocialmedia );

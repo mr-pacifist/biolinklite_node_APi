@@ -279,56 +279,67 @@ async function updateProfile(req,res) {
 }
 
 // delete user existing  profile
-async function deleteProfile(req,res) {
+async function deleteProfile(req, res) {
     try {
         const deleteProfile = await Prisma.profile.delete({
-            where:{
-                id:req.params.id,
+            where: {
+                id: req.params.id,
             }
         });
 
-        if(!deleteProfile){
+        if (!deleteProfile) {
             throw createError("Unable to delete the profile");
-            
-        }else{
-            // remove profile photo
-            if(deleteProfile.profilePhoto){
+
+        } else {
+            // Remove profile photo
+            if (deleteProfile.profilePhoto) {
                 fs.unlink(
                     path.join(__dirname, `../public/profile-photo/${deleteProfile.profilePhoto}`),
-                    (error) => {  
-                      
+                    (error) => {
+
                     }
                 );
             }
-            // remove  cover photo
-            if(deleteProfile.coverPhoto && deleteProfile.coverPhoto !== "null"){
+            // Remove cover photo
+            if (deleteProfile.coverPhoto && deleteProfile.coverPhoto !== "null") {
                 fs.unlink(
                     path.join(__dirname, `../public/profile-photo/${deleteProfile.coverPhoto}`),
                     (error) => {
-                        
+
                     }
-                  );
-            }   
-        
-            //send response
+                );
+            }
+
+            // Send response
             res.status(200).json({
-                message:"Profile deleted successfully!",
+                message: "Profile deleted successfully!",
             });
-            
-        }    
+
+        }
     } catch (error) {
-        res.status(500).json({
-            errors: {
-                common: {
-                  msg: error.message,
+        const errorMsg = "Record to delete does not exist.";
+        if (error.message.includes(errorMsg)) {
+            res.status(500).json({
+                errors: {
+                    common: {
+                        msg: errorMsg,
+                    }
                 }
-              }
-        });
-        
-    }finally { 
-        await Prisma.$disconnect(); 
-    } 
+            });
+        } else {
+            res.status(500).json({
+                errors: {
+                    common: {
+                        msg: error.message,
+                    }
+                }
+            });
+        }
+    } finally {
+        await Prisma.$disconnect();
+    }
 }
+
 // delete user existing  profile
 async function changeTheme(req, res) {
     try {

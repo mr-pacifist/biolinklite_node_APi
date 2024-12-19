@@ -51,7 +51,7 @@ const checkLogin = function (req, res, next) {
     next();
   } else {
     res.json({
-      message:"Already logged in!"
+      message:"You are already logged in!"
     });
   }
 };

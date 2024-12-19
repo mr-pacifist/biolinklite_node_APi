@@ -37,6 +37,8 @@ async function getSingleProfile(req,res) {
                 };
             }else{
                 biolinkProfile = {
+                    id:profile.id,
+                    userId:profile.userId,
                     themeId:profile.themeId,
                     name:profile.name,
                     bio:profile.bio,
@@ -179,6 +181,9 @@ async function updateProfile(req,res) {
                 id: req.params.id,
             }
         });
+        if(!profile){
+            throw new Error("Profile not found!");
+        }
         
         if(req.files.profilePhoto){
             newProfilePhotoFilename = req.files.profilePhoto[0].filename ;

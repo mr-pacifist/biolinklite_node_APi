@@ -113,10 +113,9 @@ const updateProfileValidation = [
   .trim().escape(),
 
   check("name")
-      .notEmpty()
-      .withMessage("Link name is required")
+      .optional()
       .isLength({ min:3},{max:20})
-      .withMessage("Link name must be 3 chars long")
+      .withMessage("Profile name must be 3 chars long")
       .toLowerCase()
       .trim(),
 
@@ -128,10 +127,9 @@ const updateProfileValidation = [
       .trim(),
     
   check("sub_directory")
-      .notEmpty()
-      .withMessage("Url sub directory is required")
+      .optional()
       .isLength({min:3},{max:50})
-      .withMessage("URL sub directory is  too long")
+      .withMessage("URL must contain 3 - 50 chars long")
       .customSanitizer(value => value.replace(/\s+/g, ''))
       .custom(async (value, { req }) =>{
         try {

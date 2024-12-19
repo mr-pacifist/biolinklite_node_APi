@@ -20,7 +20,7 @@ const {
  } = require("../middlewares/users/changePasswordValidator"); // validation middleware
 
 // email verification middlewar
-const emailValidator = require("../utils/emailValidator"); 
+// const emailValidator = require("../utils/emailValidator"); 
 
 const { authencitation,checkLogin} = require("../middlewares/common/authentication"); 
 
@@ -45,9 +45,9 @@ const {
 
 // new user registation
 router.post("/register",
+    checkLogin,
     registrationValidators, 
-    registrationValidationHandler,
-    emailValidator, 
+    registrationValidationHandler, 
     addUser,
     setCookies,
 );

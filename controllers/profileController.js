@@ -72,7 +72,7 @@ async function getSingleProfile(req,res) {
 // get multiple profile 
 async function getMultipleProfile(req,res) {
     try {
-        const profileList = await Prisma.profile.findMany({
+        const profiles = await Prisma.profile.findMany({
             where:{
                 userId:req.params.id,
             }
@@ -80,14 +80,14 @@ async function getMultipleProfile(req,res) {
 
         const profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
 
-        if(profileList){
-            const updatedProfileList = profileList.map(profile => ({ 
+        if(profiles){
+            const ProfileList = profiles.map(profile => ({ 
                 ...profile, 
                 profilePhoto: `${profilePhotoPath}${profile.profilePhoto}` 
             }));
 
             res.status(200).json({
-                updatedProfileList,
+                ProfileList,
             });
 
         }else{
@@ -330,35 +330,48 @@ async function deleteProfile(req,res) {
     } 
 }
 // delete user existing  profile
-async function changeTheme(req,res) {
+async function changeTheme(req, res) {
     try {
+        const themeid = parseInt(req.body.themeId);
         const updateTheme = await Prisma.profile.update({
-            where:{
-                id:req.params.id,
+            where: {
+                id: req.params.id,
             },
-            data:{
-                themeId: req.body.themeId,
+            data: {
+                themeId: themeid,
             }
         });
-        if(updateTheme){
+        if (updateTheme) {
             res.status(200).json({
-                message:"Theme updated successfully!",
+                message: "Theme updated successfully!",
             });
-        }else{
-            throw createError("Got trouble to update theme");
-        }   
+        } else {
+            throw new Error("Unable to update theme");
+        }
     } catch (error) {
+        let errorMessage = "An unknown error occurred.";
+
+        if (error.code === 'P2025') { // Prisma record not found error code
+            errorMessage = "Record to update not found.";
+        } else if (error.message === "Unable to update theme") {
+            errorMessage = "Unable to update theme.";
+        } else {
+            errorMessage = error.message;
+        }
+
         res.status(500).json({
-            error:{
-                common:{
-                    msg:error.message
+            error: {
+                common: {
+                    msg: errorMessage
                 }
             }
-        });    
-    }finally { 
-        await Prisma.$disconnect(); 
-    }  
+        });
+    } finally {
+        await Prisma.$disconnect();
+    }
 }
+
+
 
 module.exports = {
     getSingleProfile,

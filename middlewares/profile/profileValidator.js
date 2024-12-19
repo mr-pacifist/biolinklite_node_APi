@@ -30,9 +30,9 @@ const createProfileValidation = [
 
     check("name")
         .notEmpty()
-        .withMessage("Link name is required")
+        .withMessage("Profile name is required")
         .isLength({ min:3},{max:20})
-        .withMessage("Link name must be 3 chars long")
+        .withMessage("Profile name must be 3 chars long")
         .toLowerCase()
         .trim(),
 

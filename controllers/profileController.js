@@ -287,7 +287,10 @@ async function deleteProfile(req,res) {
             }
         });
 
-        if(deleteProfile){
+        if(!deleteProfile){
+            throw createError("Unable to delete the profile");
+            
+        }else{
             // remove profile photo
             if(deleteProfile.profilePhoto){
                 fs.unlink(
@@ -312,8 +315,6 @@ async function deleteProfile(req,res) {
                 message:"Profile deleted successfully!",
             });
             
-        }else{
-            throw createError("Unable to delete the profile");
         }    
     } catch (error) {
         res.status(500).json({

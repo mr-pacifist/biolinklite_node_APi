@@ -56,7 +56,7 @@ router.post("/new-profile",
 );
 
 // update profile
-router.put("/edit-profile/:id",
+router.patch("/edit-profile/:id",
     authencitation,
     multipleImageUpload,
     updateProfileValidation,

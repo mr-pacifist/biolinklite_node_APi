@@ -11,6 +11,7 @@ Usage:
 Before running the API, make sure to set up the environment variables. 
 Create a .env file in the root directory.
 Follow the example.env and fill all .env variable correctly.
+Connect with PostgreSQL database through database string
 
 Run the API using the following command:
 npx prisma migrate dev init 

@@ -79,7 +79,7 @@ model Header {
 model ProfileCustomLink {
   id           String @id @default(uuid())
   profileId    String
-  customLinkId String
+  customLinkId String 
   Profile      Profile @relation(fields: [profileId], references: [id])
   CustomLink   CustomLink @relation(fields: [customLinkId], references: [id])
   

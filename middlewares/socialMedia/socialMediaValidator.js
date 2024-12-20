@@ -1,10 +1,29 @@
+// external imports
 const { check, validationResult, body } = require('express-validator');
+const createError = require("http-errors");
+
+// internal imports
+const Prisma = require("../../prisma/prismaClient");
 
 // social media validator
 const socialMediaUrlValidation = [
     check("profileId")
         .notEmpty()
         .withMessage("Profile ID is missing")
+        .custom(async (value) => {
+          try {
+            const profile = await Prisma.profile.findUnique({
+                where: {
+                  id: value,
+                },
+              })
+            if (!profile) {
+              throw createError("Invalid profile ID");
+            }
+          } catch (err) {
+            throw createError(err.message);
+          }
+        })
         .trim(),
         
     check("socialMediaId")
@@ -35,8 +54,6 @@ const socialMediaUrlValidation = [
             }
             return true;
         })
-        
-        
         .trim().escape()
 ];
 
@@ -73,7 +90,7 @@ const updateSocialMediaUrlValidation = [
             }
             return true;
         })
-        .withMessage("Url validation failed")
+
         .trim().escape()
 ];
 

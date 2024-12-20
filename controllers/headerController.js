@@ -14,7 +14,7 @@ async function getHeaderTitle(req,res) {
         });
 
         // find headers
-        if(profile_headers){
+        if(profile_headers && profile_headers.length > 0){
             const headerIds = profile_headers.map(heading => heading.headerId);
             const headers = await Prisma.header.findMany({
                 where:{
@@ -24,16 +24,24 @@ async function getHeaderTitle(req,res) {
                 }
             });
             // response the custom link list
-            if(headers){
-                res.status(200).json({
-                    headers
-                });
+            if(headers && headers.length > 0){
+                // Merge the arrays 
+                const headerList = headers.map(header => {
+                    const profileHeader = profile_headers.find(ph => ph.headerId === header.id); 
+                    return { 
+                        id: header.id, 
+                        profileHeaderId: profileHeader.id, 
+                        title: header.title,
+                    }
+                })
+                // send response
+                res.status(200).json({headerList});
             }else{
                 throw createError("Unable to find headers");
             }
                         
         }else{
-            throw createError("Unable to find links");
+            throw createError("No headers found");
         }
         
     } catch (error) {
@@ -54,6 +62,16 @@ async function getHeaderTitle(req,res) {
 async function addHeaderTitle(req,res) {
 
     try{
+        //find profile
+        const profile = await Prisma.profile.findUnique({
+            where: {
+              id: req.body.profileId,
+            },
+          });
+        if(!profile){
+            throw createError("Profile not found");
+        }
+
         const {profileId, title} = req.body;
         // create new Header
         const newHeader = await Prisma.header.create({
@@ -62,7 +80,7 @@ async function addHeaderTitle(req,res) {
             }
         });
 
-        if(newHeader){
+        if(newHeader && newHeader.id){
              // Associate the header with the profile
         await Prisma.profileHeader.create({
             data:{
@@ -108,7 +126,7 @@ async function updateHeaderTitle(req,res) {
             }
         });
 
-        if(updatedHeader){
+        if(updatedHeader && updatedHeader.id){
             res.status(200).json({
                 message: "Header updated successfully!",
                 updatedHeader,
@@ -121,11 +139,23 @@ async function updateHeaderTitle(req,res) {
 
     }
     catch(error){
-        res.status(500).json({
-            error:{
-                msg:error.message,
-            }
-        });
+        if (error.code === 'P2025') { // Prisma record not found error code
+            res.status(400).json({
+                error:{
+                    common:{
+                        msg:"Header not found",
+                    }
+                }
+            });
+        } else{
+            res.status(404).json({
+                error:{
+                    common:{
+                        msg:error.message,
+                    }
+                }
+            });
+        };
         
     }finally { 
         await Prisma.$disconnect(); 
@@ -134,13 +164,20 @@ async function updateHeaderTitle(req,res) {
 
 async function deleteHeaderTitle(req,res) {
     try{
+        // find header list for the exsisting profile
+        const profile_headers = await Prisma.profileHeader.delete({
+            where:{
+                id: req.body.profileHeaderId,
+            }
+        })
+        // delete header
         const deleteHeader = await Prisma.header.delete({
             where: {
               id:req.params.id,
             },
           });
           
-          if(deleteHeader){
+          if(profile_headers && deleteHeader){
             res.status(200).json({
                 message:"Header successfully removed!"
             }); 
@@ -149,13 +186,23 @@ async function deleteHeaderTitle(req,res) {
           }  
     }
     catch(error){
-        res.status(400).json({
-            error:{
-                common:{
-                    msg:error.message,
-                }  
-            }
-        });
+        if (error.code === 'P2025') { // Prisma record not found error code
+            res.status(400).json({
+                error:{
+                    common:{
+                        msg:"Header not found",
+                    }
+                }
+            });
+        } else{
+            res.status(404).json({
+                error:{
+                    common:{
+                        msg:error.message,
+                    }
+                }
+            });
+        };
     }finally { 
         await Prisma.$disconnect(); 
 

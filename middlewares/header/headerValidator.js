@@ -1,12 +1,31 @@
+
 // external imports
 const { check, validationResult } = require("express-validator");
+const createError = require("http-errors");
 
+
+// internal imports
+const Prisma = require("../../prisma/prismaClient");
 
 // header title validator
 const headerValidation = [
     check("profileId")
         .notEmpty()
         .withMessage("Profile ID is missing")
+        .custom(async (value) => {
+          try {
+            const profile = await Prisma.profile.findUnique({
+                where: {
+                  id: value,
+                },
+              })
+            if (!profile) {
+              throw createError("Invalid profile ID");
+            }
+          } catch (err) {
+            throw createError(err.message);
+          }
+        })
         .trim(),
         
     check("title")

@@ -39,7 +39,7 @@ router.get("/:id",
  );
 
  // get multiple profile by user id
-router.get("/user-profiles/:id",
+router.get("/profile-list/:id",
     limiter,
     authencitation,
     getMultipleProfile,
@@ -47,7 +47,7 @@ router.get("/user-profiles/:id",
 
 
 // Create profile
-router.post("/new-profile",
+router.post("/create",
     authencitation,
     imageUploader,
     createProfileValidation, 
@@ -56,7 +56,7 @@ router.post("/new-profile",
 );
 
 // update profile
-router.patch("/edit-profile/:id",
+router.patch("/edit/:id",
     authencitation,
     multipleImageUpload,
     updateProfileValidation,
@@ -65,13 +65,13 @@ router.patch("/edit-profile/:id",
 );
 
 // delete profile
-router.delete("/delete-profile/:id", 
+router.delete("/delete/:id", 
     authencitation,
     deleteProfile,
 
 );
 // Change theme of profile
-router.put("/edit-profile-theme/:id",
+router.put("/edit-theme/:id",
     authencitation,
     changeThemeValidation,
     changeThemeValidationHandler,

@@ -30,6 +30,7 @@ const customLinkValidation = [
 
 // custom link validation handler
 const customLinkValidationHandler = function (req, res, next) {
+  
     const errors = validationResult(req);
     const mappedErrors = errors.mapped();
     if (Object.keys(mappedErrors).length === 0) {

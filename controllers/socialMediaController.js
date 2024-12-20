@@ -8,15 +8,15 @@ async function getSocialmediaList(req,res) {
     try {
         const socialMedias = await Prisma.socialMedia.findMany();
         // get socialmedia
-        if(socialMedias){
+        if(socialMedias && socialMedias.length > 0){
             socialMedias.forEach(media => {
                 media.icon = `${process.env.SITE_URL}${media.icon}`; 
             });
-            res.status(200).json(socialMedias); 
             // response all social media and icon
+            res.status(200).json(socialMedias);     
                
         }else{
-            throw createError("Profile dosen't contain any socialmedia");
+            throw createError("No social media found");
         }
         
     } catch (error) {
@@ -35,15 +35,24 @@ async function getSocialmediaList(req,res) {
 // get all profile social media 
 async function getProfileSocialmedia(req,res) {
     try {
+        // check if profile exists
+        const profile = await Prisma.profile.findUnique({
+            where: {
+              id: req.params.id,
+            },
+        })
+        if(!profile){
+            throw createError("Profile not found");
+        }
         // find social medias for the exsisting profile
         const profileSocialmedia = await Prisma.profileSocialMediaLink.findMany({
             where:{
-                profileId: profile.id,
+                profileId: req.params.id,
             }
         });
 
         // get socialmedia
-        if(profileSocialmedia){
+        if(profileSocialmedia && profileSocialmedia.length > 0){
             const socialMediaIds = profileSocialmedia.map(socialMedia => socialMedia.socialMediaId);
             const socialMedias = await Prisma.socialMedia.findMany({
                 where:{
@@ -87,12 +96,13 @@ async function getProfileSocialmedia(req,res) {
 // add  social media 
 
 async function addSocialmedia(req,res) {
-    const {profileId, socialMediaId} = req.body;
+    let {profileId, socialMediaId} = req.body;
+    const parsedSocialMediaId = parseInt(socialMediaId);
     try{
         const newSocialMedia = await Prisma.profileSocialMediaLink.create({
             data:{
                 profileId,
-                socialMediaId,
+                socialMediaId:parsedSocialMediaId,
                 socialMediaSubdirectory: req.dataShare, 
             }
         });
@@ -144,13 +154,23 @@ async function updateSocialmedia(req,res) {
         }      
     }
     catch(error){
-        res.status(400).json({
-            error:{
-                common:{
-                    msg:error.message,
+        if (error.code === 'P2025') { // Prisma record not found error code
+            res.status(404).json({
+                error:{
+                    common:{
+                        msg:"Social media not found",
+                    }
                 }
-            }
-        });
+            });
+        } else{
+            res.status(400).json({
+                error:{
+                    common:{
+                        msg:error.message,
+                    }
+                }
+            });
+        };
     }finally { 
         await Prisma.$disconnect(); 
     }  
@@ -165,23 +185,33 @@ async function removeSocialmedia(req,res) {
               id:req.params.id,
             },
           });
-          if (deleteSocialMedia) {
+          if (deleteSocialMedia && deleteSocialMedia.id){ 
             res.status(200).json({
                 message:"Social media deleted successfully."
             }); 
           }else{
             throw createError("social media not found");
-          }
-                
+          }         
     }
     catch(error){
-        res.status(404).json({
-            error:{
-                common:{
-                    msg:error.message
+        if (error.code === 'P2025') { // Prisma record not found error code
+            res.status(404).json({
+                error:{
+                    common:{
+                        msg:"Social media not found",
+                    }
                 }
-            }
-        });
+            });
+        } else{
+            res.status(400).json({
+                error:{
+                    common:{
+                        msg:error.message,
+                    }
+                }
+            });
+        };
+       
     }finally { 
         await Prisma.$disconnect(); 
     }

@@ -28,7 +28,7 @@ const {
 
 
 // get social media list
-router.get("/socialmedia-list", limiter, authencitation, getSocialmediaList );
+router.get("/list", limiter, authencitation, getSocialmediaList );
 
 // get profile social media
 router.get("/:id",authencitation, getProfileSocialmedia );
@@ -43,7 +43,7 @@ router.post("/add",//need to verify url contains corret social media or not
 );
 
 // update social media
-router.put("/update/:id",
+router.put("/edit/:id",
     authencitation,
     updateSocialMediaUrlValidation,
     updateSocialMediaUrlValidationHandler,
@@ -52,7 +52,7 @@ router.put("/update/:id",
  );
 
 // remove social media
-router.delete("/remove/:id",
+router.delete("/delete/:id",
     authencitation,
     removeSocialmedia
 

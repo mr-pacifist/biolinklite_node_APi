@@ -7,7 +7,7 @@ const Prisma = require("../prisma/prismaClient");
 
  const splitSubdirectories = async function(req, res, next) {
 
-  const socialMediaId = parseInt(req.body.socialMediaId, 10);
+  const socialMediaId = parseInt(req.body.socialMediaId);
   if ([1, 5].includes(socialMediaId)) {
     req.dataShare = req.body.url;
     return next();
@@ -22,11 +22,11 @@ const Prisma = require("../prisma/prismaClient");
 
       const socialMedia = await Prisma.socialMedia.findUnique({
           where:{
-              id: req.body.socialMediaId,
+              id: socialMediaId,
           }
         });
-
-        if(parsedUrl.origin == socialMedia.url){
+        const parsedUrlOrigin = parsedUrl.origin + "/";
+        if(parsedUrlOrigin == socialMedia.url){
 
           // Split the pathname into parts
         const pathParts = parsedUrl.pathname.split('/');

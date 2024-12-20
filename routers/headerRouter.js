@@ -20,21 +20,21 @@ const {
 router.get("/:id", limiter, authencitation, getHeaderTitle);
 
 // add header
-router.post("/addHeader",
+router.post("/add",
     authencitation,
     headerValidation,
     headerValidationHandler, 
     addHeaderTitle
 );
 // update header
-router.put("/updateHeader/:id",
+router.put("/edit/:id",
     authencitation,
     headerValidation,
     headerValidationHandler, 
     updateHeaderTitle
 );
 // delete header
-router.delete("/removeHeader/:id",
+router.delete("/delete/:id",
     authencitation,
     deleteHeaderTitle,
 );

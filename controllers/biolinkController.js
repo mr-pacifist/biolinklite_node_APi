@@ -32,7 +32,7 @@ async function getBiolink(req,res) {
             });
 
             // find custom link
-            if(profileCustomlink){
+            if(profileCustomlink && profileCustomlink.length > 0){
                 const customLinkIds = profileCustomlink.map(link => link.customLinkId);
 
                  const getAllCustomlink = await Prisma.customLink.findMany({

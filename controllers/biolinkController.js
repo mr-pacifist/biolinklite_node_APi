@@ -109,7 +109,7 @@ async function getBiolink(req,res) {
                     bio:profile.bio,
                     profilePhoto: profilePhotoPath + profile.profilePhoto, 
                     coverPhoto: coverPhotoPath + profile.coverPhoto,
-                    sub_directory:profile.sub_directory,
+                    profileUrl:process.env.SITE_URL + profile.sub_directory,
                     seo_title:profile.seo_title,
                     seo_description:profile.seo_description,
                 };
@@ -119,7 +119,7 @@ async function getBiolink(req,res) {
                     name:profile.name,
                     bio:profile.bio,
                     profilePhoto: profilePhotoPath + profile.profilePhoto,
-                    sub_directory:profile.sub_directory,
+                    profileUrl:process.env.SITE_URL + profile.sub_directory,
                     seo_title:profile.seo_title,
                     seo_description:profile.seo_description,
                 };

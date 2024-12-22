@@ -17,6 +17,19 @@ const  changePasswordValidation= [
         .isLength({ min: 6 }, { max: 16 })
         .withMessage("Password must be 6-16 chars long")
         .trim(),
+        
+    check("confirmPassword")
+        .notEmpty()
+        .withMessage("Confirm password is required")
+        .isLength({ min: 6 }, { max: 16 })
+        .withMessage("Password must be 6-16 chars long")
+        .custom((value, { req }) => {
+            if (value !== req.body.newPassword) {
+              throw new Error("Password  does not match");
+            }
+            return true;
+          })
+        .trim(),
       
   ];
 

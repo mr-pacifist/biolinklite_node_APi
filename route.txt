@@ -1,0 +1,123 @@
+authorization:==============================
+User registration: https://biolinklite-node-api.onrender.com/user/register
+➤ requrired fields: firstName,lastName,userName,password,conformPassword
+➤ optional fields: email
+
+User login: https://biolinklite-node-api.onrender.com/user/login
+
+➤ requrired field:userName,password
+➤ userName: email or userName 
+
+User logout: https://biolinklite-node-api.onrender.com/user/logout
+➤ No requrired fields cookies with header
+
+Profle:=========================================
+
+Single Profile: https://biolinklite-node-api.onrender.com/profile/ 
+➤ Profile id with parameter 
+
+Profile List: https://biolinklite-node-api.onrender.com/profile/profile-list/
+➤ User id with parameter
+
+Update Profile: https://biolinklite-node-api.onrender.com/profile/create
+➤ requrired form field : 
+userId, 
+name, # profile name
+bio, 
+profilePhoto, 
+sub_directory, # profile path or profile url
+
+Update Theme: https://biolinklite-node-api.onrender.com/profile/edit/
+➤ Profile id with parameter 
+➤ requrired field: themeId
+
+Delete Profile: https://biolinklite-node-api.onrender.com/profile/delete/
+➤ Profile id with parameter 
+
+Custom link:=======================================
+
+Get all link: https://biolinklite-node-api.onrender.com/custom_link/
+➤ Profile id with parameter
+
+Add link: https://biolinklite-node-api.onrender.com/custom_link/add
+➤ requrired field :
+profileId,
+name, #link name
+url, #link url
+
+Update link: https://biolinklite-node-api.onrender.com/custom_link/edit/
+➤ Custom link id with parameter
+➤ requrired field :
+profileId,
+name, #link name
+url, #link url
+
+Delete link: https://biolinklite-node-api.onrender.com/custom_link/remove/
+➤ Custom link id with parameter
+➤ requrired field : profileCustomlinkId,
+
+Header:==========================================
+
+Header list: https://biolinklite-node-api.onrender.com/header/
+➤ Profile id with parameter
+
+Add header: https://biolinklite-node-api.onrender.com/header/add
+➤ requrired field :
+profileId,
+title, 
+
+Update header: https://biolinklite-node-api.onrender.com/header/edit/
+➤ header id with parameter
+➤ requrired field :
+profileId,
+title,
+
+Delete header: https://biolinklite-node-api.onrender.com/header/delete/
+➤ header id with parameter
+➤ requrired field : profileHeaderId,
+
+Social-media:====================================
+
+Get All socialmedia: https://biolinklite-node-api.onrender.com/socialMedia/list
+
+socialMedia of a profile: https://biolinklite-node-api.onrender.com/socialMedia/
+➤ Profile id with parameter
+
+Add socialMedia: https://biolinklite-node-api.onrender.com/socialMedia/add
+➤ requrired field :
+profileId,
+socialMediaId, #Integer VALUES
+url, # Socialmedia url
+
+Update socialmedia: https://biolinklite-node-api.onrender.com/socialMedia/edit/
+➤ socialmedia id with parameter
+➤ requrired field :
+socialMediaId, #Integer VALUES
+url, # Socialmedia url
+
+Delete socialmedia: https://biolinklite-node-api.onrender.com/socialMedia/delete/
+➤ socialmedia id with parameter
+
+User:===========================
+Get User inf: https://biolinklite-node-api.onrender.com/user/
+➤ user id with parameter
+
+update user: https://biolinklite-node-api.onrender.com/user/update/
+➤ user id with parameter
+➤ requrired field :
+firstName,
+lastName,
+phone,
+email,
+city,
+state,
+postalCode,
+country,
+
+update password: https://biolinklite-node-api.onrender.com/user/change-password/
+➤ user id with parameter
+➤ requrired field : currentPassword, newPassword, conformPassword
+
+Biolink profile:=====================================
+https://biolinklite-node-api.onrender.com/
+➤ Url with parameter

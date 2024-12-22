@@ -23,10 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // cors configuration
-app.use(cors({
-    origin: process.env.APP_URL + process.env.PORT,
-    credentials: true
-}));
+app.use(cors());
 
 // set static folder
 app.use(express.static(path.join(__dirname, "public")));

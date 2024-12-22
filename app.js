@@ -2,6 +2,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const path = require("path");
+const cors = require('cors');
 const cookieParser = require("cookie-parser");
 
 // internal imports
@@ -21,6 +22,11 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// cors configuration
+app.use(cors({
+    origin: process.env.APP_URL,
+    credentials: true
+}));
 
 // set static folder
 app.use(express.static(path.join(__dirname, "public")));

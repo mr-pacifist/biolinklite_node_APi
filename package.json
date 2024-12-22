@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon app",
     "start": "node app.js",
+    "test": "jest",
     "seed": "node db-seed.js"
   },
   "keywords": [],

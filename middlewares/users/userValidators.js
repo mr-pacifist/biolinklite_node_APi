@@ -33,6 +33,7 @@ const registrationValidators = [
     .withMessage("User name can't be empty")
     .isLength({min:5},{max:20})
     .withMessage("User name must contain 5-20 character")
+    .toLowerCase()
     .custom(async (value) => {
         try {
           const user = await Prisma.user.findUnique({

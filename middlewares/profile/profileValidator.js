@@ -49,6 +49,7 @@ const createProfileValidation = [
         .isLength({max:50})
         .withMessage("URL sub directory is  too long")
         .customSanitizer(value => value.replace(/\s+/g, ''))
+        .toLowerCase()
         .custom(async (value) => {
           try {
             const subDirectory = await Prisma.profile.findUnique({
@@ -131,6 +132,7 @@ const updateProfileValidation = [
       .isLength({min:3},{max:50})
       .withMessage("URL must contain 3 - 50 chars long")
       .customSanitizer(value => value.replace(/\s+/g, ''))
+      .toLowerCase()
       .custom(async (value, { req }) =>{
         try {
           const subDirectory = await Prisma.profile.findUnique({

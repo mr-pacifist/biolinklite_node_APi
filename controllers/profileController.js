@@ -75,8 +75,13 @@ async function getSingleProfile(req,res) {
 async function getMultipleProfile(req, res) {
     try {
         const userId = req.params.id;
-        const page = parseInt(req.query.page) || 1; 
-        const limit = parseInt(req.query.limit) || 5; 
+        let page = parseInt(req.query.page) || 1; 
+        let limit = parseInt(req.query.limit) || 5; 
+
+        // Ensure page and limit are not negative
+        if (page < 1) page = 1;
+        if (limit < 1) limit = 5;
+
         const offset = (page - 1) * limit;
 
         // Get the total count of profiles
@@ -109,7 +114,7 @@ async function getMultipleProfile(req, res) {
                 page,
                 limit,
                 totalPages,
-                ProfileList,
+                ProfileList,              
             });
 
         } else {
@@ -128,6 +133,7 @@ async function getMultipleProfile(req, res) {
         await Prisma.$disconnect(); 
     }    
 }
+
 
 
 // Create a new profile

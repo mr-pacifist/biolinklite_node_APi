@@ -72,42 +72,49 @@ async function getSingleProfile(req,res) {
     }    
 }
 // get multiple profile 
-async function getMultipleProfile(req,res) {
+async function getMultipleProfile(req, res) {
     try {
+        const userId = req.params.id;
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 5; 
+        const offset = (page - 1) * limit;
+
         const profiles = await Prisma.profile.findMany({
-            where:{
-                userId:req.params.id,
-            }
+            where: {
+                userId: userId,
+            },
+            skip: offset,
+            take: limit,
         });
 
         const profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
 
-        if(profiles){
+        if (profiles.length > 0) {
             const ProfileList = profiles.map(profile => ({ 
                 ...profile, 
                 profilePhoto: `${profilePhotoPath}${profile.profilePhoto}` 
             }));
 
             res.status(200).json({
+                page,
+                limit,
                 ProfileList,
             });
 
-        }else{
-            throw createError("Unable to find profile");   
+        } else {
+            throw new Error("Unable to find profile");   
         }
         
     } catch (error) {
         res.status(500).json({
             errors: {
                 common: {
-                  msg: error.message,
+                    msg: error.message,
                 },
-              },
+            },
         });   
-    }
-    finally { 
+    } finally { 
         await Prisma.$disconnect(); 
-
     }    
 }
 

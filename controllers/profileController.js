@@ -79,6 +79,16 @@ async function getMultipleProfile(req, res) {
         const limit = parseInt(req.query.limit) || 5; 
         const offset = (page - 1) * limit;
 
+        // Get the total count of profiles
+        const totalProfiles = await Prisma.profile.count({
+            where: {
+                userId: userId,
+            },
+        });
+
+        // Calculate total pages
+        const totalPages = Math.ceil(totalProfiles / limit);
+
         const profiles = await Prisma.profile.findMany({
             where: {
                 userId: userId,
@@ -98,6 +108,7 @@ async function getMultipleProfile(req, res) {
             res.status(200).json({
                 page,
                 limit,
+                totalPages,
                 ProfileList,
             });
 
@@ -117,6 +128,7 @@ async function getMultipleProfile(req, res) {
         await Prisma.$disconnect(); 
     }    
 }
+
 
 // Create a new profile
 async function createProfile(req,res) {

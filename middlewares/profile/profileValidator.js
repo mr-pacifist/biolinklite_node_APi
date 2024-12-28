@@ -85,7 +85,7 @@ const createProfileValidationHandler = function (req, res, next) {
       );
     }
     // response the errors
-    res.status(500).json({
+    res.status(401).json({
       errors: mappedErrors,
     });
      
@@ -203,7 +203,7 @@ const updateProfileValidationHandler = function (req, res, next) {
     }
   }
   // response the errors
-  res.status(500).json({
+  res.status(401).json({
     errors: mappedErrors,
   });
    

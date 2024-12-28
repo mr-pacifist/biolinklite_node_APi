@@ -73,6 +73,13 @@ const socialMediaUrlValidationHandler = function (req, res, next) {
 
 // on update socialmedia  validator
 const updateSocialMediaUrlValidation = [ 
+  check("socialMediaId")
+        .isNumeric()
+        .withMessage("Only number acceptable")
+        .isInt({ min: 1, max: 8 })
+        .withMessage("Select social media between 1-8")
+        .trim(),
+        
   body("url")
         .custom((value, { req }) => {
             const socialMediaId = parseInt(req.body.socialMediaId, 10);

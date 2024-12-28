@@ -99,7 +99,7 @@ async function addHeaderTitle(req,res) {
 
     }
     catch(error){
-        res.status(400).json({
+        res.status(500).json({
             error:{
                 common:{
                     msg:error.message,

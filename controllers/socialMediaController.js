@@ -111,7 +111,7 @@ async function addSocialmedia(req,res) {
             throw createError("Unable to add social media");
         }
         else{
-            res.status(200).json({
+            res.status(201).json({
                 message: "Social media added successfully!",
                 newSocialMedia,
             });

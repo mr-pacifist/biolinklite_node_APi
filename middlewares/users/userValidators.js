@@ -126,10 +126,7 @@ const loignValidationHandler = function (req, res, next) {
   if (Object.keys(mappedErrors).length === 0) {
     next();
   } else {
-    res.status(401).json( {
-      data: {
-        userName: req.body.userName,
-      },
+    res.status(401).json( { 
       errors: mappedErrors,
     });
   }

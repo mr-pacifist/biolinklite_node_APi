@@ -15,10 +15,8 @@ const setCookies = function(req,res){
     maxAge: parseInt(process.env.JWT_EXPIRY),
     httpOnly: true,
     signed: true,
-    sameSite: 'Lax',
   });
   
-
 
   //user object check
   if(userObject.login){

@@ -15,6 +15,8 @@ const setCookies = function(req,res){
     maxAge: parseInt(process.env.JWT_EXPIRY),
     httpOnly: true,
     signed: true,
+    secure: true,
+    sameSite: 'None',
   });
   
 

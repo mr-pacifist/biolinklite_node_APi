@@ -12,13 +12,13 @@ const setCookies = function(req,res){
   
   // set cookie
   res.cookie(process.env.COOKIE_NAME, token, {
-    maxAge: process.env.JWT_EXPIRY,
+    maxAge: parseInt(process.env.JWT_EXPIRY),
     httpOnly: true,
     signed: true,
+    sameSite: 'Lax',
   });
   
-  // set logged in user local identifier
-  res.locals.loggedInUser = userObject;
+
 
   //user object check
   if(userObject.login){

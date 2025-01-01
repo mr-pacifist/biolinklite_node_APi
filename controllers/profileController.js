@@ -321,6 +321,43 @@ async function deleteProfile(req, res) {
             throw createError("Unable to delete the profile");
 
         } else {
+            // delete profilecustom link
+            const deletedProfileCustomLink = await Prisma.profileCustomLink.deleteMany({
+                where: {
+                    profileId: req.params.id,
+                }
+            }); 
+            // custom link
+            if(deletedProfileCustomLink){
+                 await Prisma.customLink.deleteMany({
+                    where: {
+                        id: deletedProfileCustomLink.map(link => link.customLinkId),
+                    }
+                })
+            }
+
+            // delete profile header
+            const deletedProfileHeader = await Prisma.profileHeader.deleteMany({
+                where: {            
+                    profileId: req.params.id,
+                }        
+            }); 
+            // header
+            if(deletedProfileHeader){
+                await Prisma.header.deleteMany({ 
+                    where: {
+                        id: deletedProfileHeader.map(header => header.headerId),
+                    }
+                });
+                }
+                
+            // delete profile social media
+            await Prisma.profileSocialMediaLink.deleteMany({
+                where: {
+                    profileId: req.params.id,
+                }
+            }); 
+
             // Remove profile photo
             if (deleteProfile.profilePhoto) {
                 fs.unlink(

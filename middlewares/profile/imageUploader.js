@@ -21,14 +21,14 @@ function imageUploader(req, res, next) {
     } else {
       // Check if no file was uploaded
       if (!req.files || req.files.length === 0) {
-        res.status(400).json({
-          errors: {
-            profilePhoto: {
-              msg: "Profile photo is required!",
-            },
-          },
-        });
-         
+        // res.status(400).json({
+        //   errors: {
+        //     profilePhoto: {
+        //       msg: "Profile photo is required!",
+        //     },
+        //   },
+        // });
+         next();
       } else {
         next();
       }

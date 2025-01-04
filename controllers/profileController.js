@@ -141,7 +141,13 @@ async function createProfile(req,res) {
     
 
     const {userId,name,bio,sub_directory} = req.body;
-    const profilePhoto = req.files[0].filename;
+    let profilePhoto;
+    if(req.files[0].filename){
+         profilePhoto = req.files[0].filename;
+    }else{
+        profilePhoto = "null";
+    }
+    
     try {
 
         const newProfile = await Prisma.profile.create({

@@ -142,7 +142,7 @@ async function createProfile(req,res) {
 
     const {userId,name,bio,sub_directory} = req.body;
     let profilePhoto;
-    if(req.files[0].filename){
+    if(req.files[0]){
          profilePhoto = req.files[0].filename;
     }else{
         profilePhoto = "null";

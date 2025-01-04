@@ -32,8 +32,10 @@ async function login(req, res,next) {
           userName: user.userName,
           login:true, 
       }
-        req.dataShare = userObject;
-        next();
+      res.status(202).json({
+        message:"Login successful!",
+        userObject
+      });
       } else {
         throw createError("Login failed! Please try with correct username and password");
       }

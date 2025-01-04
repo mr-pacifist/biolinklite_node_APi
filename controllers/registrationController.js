@@ -43,8 +43,10 @@ async function addUser(req,res,next) {
                     displayName: user.firstName + " " + user.lastName,
                     userName: user.userName, 
                 }
-                req.dataShare = userObject;
-                next();
+                res.status(201).json({
+                    message:"User registation successful!",
+                    userObject
+                  });
             }else{
                 throw createError("Registration faild!");
             }

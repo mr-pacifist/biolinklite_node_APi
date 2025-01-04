@@ -3,7 +3,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const path = require("path");
 const cors = require('cors');
-const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser');
+
 
 // internal imports
 const {notfoundHandler,errorHandler} = require("./middlewares/common/errorHandler");
@@ -33,8 +34,7 @@ app.use(cors(
 // set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// parse cookies
-app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(bodyParser.json());
 
 // routing setup
 app.use("/", biolinkRouter);

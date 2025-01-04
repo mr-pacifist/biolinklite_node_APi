@@ -24,8 +24,6 @@ const {
 
 const { authencitation,checkLogin} = require("../middlewares/common/authentication"); 
 
-const setCookies = require("../middlewares/common/setcookies"); 
-
 const limiter = require("../middlewares/common/limiter");
 
 const {addUser} = require("../controllers/registrationController");
@@ -49,7 +47,6 @@ router.post("/register",
     registrationValidators, 
     registrationValidationHandler, 
     addUser,
-    setCookies,
 );
 
 // user login
@@ -58,7 +55,7 @@ router.post("/login",
     loignValidators,
     loignValidationHandler,
     login,
-    setCookies,
+    
 );
 
 // user logout

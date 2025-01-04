@@ -2,52 +2,35 @@ const jwt = require("jsonwebtoken");
 
 // auth guard to protect routes that need authentication
 const authencitation = (req, res, next) => {
-  let cookies =
-    Object.keys(req.signedCookies).length > 0 ? req.signedCookies : null;
 
-  if (cookies) {
-    try {
-      token = cookies[process.env.COOKIE_NAME];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
-
-      // pass user info to response locals
-      if (res.locals.html) {
-        res.locals.loggedInUser = decoded;
-      }
-      next();
-    } catch (err) {
-      if (res.locals.html) {
-        res.redirect("/");
-      } else {
-        res.status(401).json({
-          error: {
-            common: {
-              msg: "Authentication failure!",
-            },
-          },
-        });
-      }
+  const token = req.headers['authorization']; 
+  if (!token) return res.status(403).json({ 
+    error:{
+        common:{
+            msg:'No token provided.', 
+          }  
     }
-  } else {
-    if (res.locals.html) {
-      res.redirect("/");
-    } else {
-      res.status(401).json({
-        error:{
-          msg:"Authetication failure!",
+  }); 
+  jwt.verify(token,process.env.JWT_SECRET, (err, decoded) => { 
+    if (err) return res.status(401).json({ 
+      error:{
+        common:{
+            msg:'Failed to authenticate token.',
         }
-      });
     }
-  }
+      
+    }); 
+    req.user = decoded; 
+    next(); 
+  });
+  
 };
 
 // redirect already logged in user to inbox pabe
 const checkLogin = function (req, res, next) {
-  let cookies =
-    Object.keys(req.signedCookies).length > 0 ? req.signedCookies : null;
+  const token = req.headers['authorization']; 
 
-  if (!cookies) {
+  if (!token) {
     next();
   } else {
     res.json({

@@ -99,7 +99,7 @@ async function addSocialmedia(req,res) {
     let {profileId, socialMediaId} = req.body;
     const parsedSocialMediaId = parseInt(socialMediaId);
     try{
-        const newSocialMedia = await Prisma.profileSocialMediaLink.create({
+        const profileSocialMediaLink = await Prisma.profileSocialMediaLink.create({
             data:{
                 profileId,
                 socialMediaId:parsedSocialMediaId,
@@ -107,13 +107,13 @@ async function addSocialmedia(req,res) {
             }
         });
 
-        if(!newSocialMedia){
+        if(!profileSocialMediaLink){
             throw createError("Unable to add social media");
         }
         else{
             res.status(201).json({
                 message: "Social media added successfully!",
-                newSocialMedia,
+                profileSocialMediaLink,
             });
         }
     }
@@ -135,7 +135,7 @@ async function addSocialmedia(req,res) {
 async function updateSocialmedia(req,res) {
     
     try{
-        const updatedSocialMedia = await Prisma.profileSocialMediaLink.update({
+        const updatedProfileSocialMediaLink = await Prisma.profileSocialMediaLink.update({
             where:{
                 id: req.params.id,
             },
@@ -144,10 +144,10 @@ async function updateSocialmedia(req,res) {
             }
         });
 
-        if(updateSocialmedia){
+        if(updatedProfileSocialMediaLink){
             res.status(200).json({
                 message: "Updated successfully!",
-                updatedSocialMedia,
+                updatedProfileSocialMediaLink,
             });
         }else{
             throw createError("Unable to update social media");

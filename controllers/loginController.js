@@ -32,8 +32,11 @@ async function login(req, res,next) {
           userName: user.userName,
           login:true, 
       }
+      //token
+      const token = process.env.JWT_SECRET;
       res.status(202).json({
         message:"Login successful!",
+        token,
         userObject
       });
       } else {

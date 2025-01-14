@@ -22,6 +22,7 @@ const app = express();
 dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.set('trust proxy', true);
 
 // cors configuration
 // app.use(cors(

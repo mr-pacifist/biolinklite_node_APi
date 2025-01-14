@@ -63,7 +63,7 @@ async function getProfileSocialmedia(req,res) {
             });
             // response all social media and icon
         
-            const socialMediaLinks = profileSocialmedia.map(profileSocialmedia => { 
+            const profileSocialMediaLinks = profileSocialmedia.map(profileSocialmedia => { 
             const socialMedia = socialMedias.find(s => s.id === profileSocialmedia.socialMediaId); 
             if (socialMedia) { 
                 return { 
@@ -74,7 +74,7 @@ async function getProfileSocialmedia(req,res) {
                     url: socialMedia.url + profileSocialmedia.socialMediaSubdirectory,
                     icon: process.env.SITE_URL + socialMedia.icon }; 
                 } return null; }).filter(Boolean); 
-            res.status(200).json({socialMediaLinks});        
+            res.status(200).json({profileSocialMediaLinks});        
         }else{
             throw createError("Profile dosen't contain any socialmedia");
         }

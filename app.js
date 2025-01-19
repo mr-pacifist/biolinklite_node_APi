@@ -32,7 +32,7 @@ app.set('trust proxy', true);
 //     }
 // ));
 
-const allowedOrigins = ['https://biolink-lite.vercel.app', 'http://localhost:3000'];
+const allowedOrigins = ['https://biolink-lite.vercel.app', 'http://localhost:3000','https://biolinklite.com '];
 
 app.use(cors({
     origin: function (origin, callback) {

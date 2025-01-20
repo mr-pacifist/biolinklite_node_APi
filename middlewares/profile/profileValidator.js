@@ -33,14 +33,12 @@ const createProfileValidation = [
         .withMessage("Profile name is required")
         .isLength({ min:3},{max:20})
         .withMessage("Profile name must be 3 chars long")
-        .toLowerCase()
         .trim(),
 
     check("bio")
         .optional()
         .isLength({ min:5},{max:50})
         .withMessage("Bio must be 10-50 chars long")
-        .toLowerCase()
         .trim(),
       
     check("sub_directory")
@@ -117,14 +115,12 @@ const updateProfileValidation = [
       .optional()
       .isLength({ min:3},{max:20})
       .withMessage("Profile name must be 3 chars long")
-      .toLowerCase()
       .trim(),
 
   check("bio")
       .optional()
       .isLength({ min:5},{max:50})
       .withMessage("Bio must be 10-50 chars long")
-      .toLowerCase()
       .trim(),
     
   check("sub_directory")
@@ -153,13 +149,11 @@ const updateProfileValidation = [
       .optional()
       .isLength({ min:3},{max:255})
       .withMessage("Seo title must be 3 chars long")
-      .toLowerCase()
       .trim(),
   check("seo_description")
       .optional()
       .isLength({ min:3},{max:255})
       .withMessage("Require 3 or more character ")
-      .toLowerCase()
       .trim(),
 ];
 // profile update validation handle and error through

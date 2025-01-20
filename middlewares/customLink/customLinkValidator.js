@@ -14,7 +14,6 @@ const customLinkValidation = [
         .withMessage("Link name is required")
         .isLength({ min:3},{max:20})
         .withMessage("Link name must be 3 chars long")
-        .toLowerCase()
         .trim(),
       
     check("url")

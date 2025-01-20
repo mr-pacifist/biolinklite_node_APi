@@ -33,7 +33,6 @@ const headerValidation = [
         .withMessage("Header title is required")
         .isLength({ min:3},{max:25})
         .withMessage("Link name must be 3-25 chars long")
-        .toLowerCase()
         .trim(),
       
   ];

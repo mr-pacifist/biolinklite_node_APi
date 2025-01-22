@@ -33,8 +33,6 @@ const updateUserValidation = [
     .withMessage("Phone is required")
     .isLength({ min: 10, max: 15 }) 
     .withMessage("Phone number is not in correct length")
-    .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/)
-    .withMessage("Use '+' and number only")
     .trim(),
 
   check("email")

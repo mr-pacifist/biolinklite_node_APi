@@ -22,7 +22,12 @@ const app = express();
 dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.set('trust proxy', true);
+// Set trust proxy based on environment
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1); // Trust first proxy
+  } else {
+    app.set('trust proxy', false); // Do not trust proxy in development
+  }
 
 // cors configuration
 // app.use(cors(

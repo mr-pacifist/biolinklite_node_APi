@@ -18,12 +18,22 @@ async function getSingleProfile(req,res) {
         });
 
         if(profile){
-            let biolinkProfile;
-            const profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
-            const coverPhotoPath = `${process.env.SITE_URL}cover-photo/`;
+            
+            let profilePhotoPath;
+            let coverPhotoPath;
 
-            if(profile.coverPhoto && profile.coverPhoto !== "null"){
-                biolinkProfile = {
+            if(profile.profilePhoto) {
+                profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
+            }else{
+                profilePhotoPath='';
+            }
+            if(profile.coverPhoto) {
+                coverPhotoPath = `${process.env.SITE_URL}profile-photo/`;
+            }else{
+                coverPhotoPath='';
+            }
+            
+            const  biolinkProfile = {
                     id:profile.id,
                     userId:profile.userId,
                     themeId:profile.themeId,
@@ -34,20 +44,8 @@ async function getSingleProfile(req,res) {
                     sub_directory:profile.sub_directory,
                     seo_title:profile.seo_title,
                     seo_description:profile.seo_description,
-                };
-            }else{
-                biolinkProfile = {
-                    id:profile.id,
-                    userId:profile.userId,
-                    themeId:profile.themeId,
-                    name:profile.name,
-                    bio:profile.bio,
-                    profilePhoto: profilePhotoPath + profile.profilePhoto,
-                    sub_directory:profile.sub_directory,
-                    seo_title:profile.seo_title,
-                    seo_description:profile.seo_description,
-                };
-            }
+            
+                }
             
             res.status(200).json(
                 biolinkProfile,
@@ -145,7 +143,7 @@ async function createProfile(req,res) {
     if(req.files[0]){
          profilePhoto = req.files[0].filename;
     }else{
-        profilePhoto = "null";
+        profilePhoto = "";
     }
     
     try {
@@ -155,7 +153,7 @@ async function createProfile(req,res) {
                 name,
                 bio,
                 profilePhoto,
-                coverPhoto:"null", 
+                coverPhoto:"", 
                 sub_directory,
                 seo_title: name,
                 seo_description: bio,
@@ -233,7 +231,7 @@ async function updateProfile(req,res) {
         if(req.files.coverPhoto){
             newCoverPhotoFilename = req.files.coverPhoto[0].filename ;
             // remove previous cover photo
-            if(profile.coverPhoto && profile.coverPhoto !== "null"){
+            if(profile.coverPhoto && profile.coverPhoto !== ""){
                 fs.unlink(
                     path.join(__dirname, `../public/profile-photo/${profile.coverPhoto}`),
                     (error) => {

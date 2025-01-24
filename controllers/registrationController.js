@@ -19,8 +19,8 @@ async function addUser(req,res,next) {
                     firstName,
                     lastName,
                     userName,
-                    email: email || null,
-                    phone:"null",
+                    email: email || '',
+                    phone:"",
                     password: hashedPassword            
                 }
             });
@@ -29,10 +29,10 @@ async function addUser(req,res,next) {
             const userAddress = await Prisma.address.create({
                 data:{
                     userId: user.id,
-                    city: 'null',
-                    state: 'null',
-                    postalCode: 'null',
-                    country: 'null',
+                    city: '',
+                    state: '',
+                    postalCode: '',
+                    country: '',
                 }
             });
             

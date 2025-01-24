@@ -102,7 +102,7 @@ async function getBiolink(req,res) {
             const profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
             const coverPhotoPath = `${process.env.SITE_URL}cover-photo/`;
 
-            if(profile.coverPhoto && profile.coverPhoto !== "null"){
+            if(profile.coverPhoto && profile.coverPhoto !== ""){
                 biolinkProfile = {
                     themeId:profile.themeId,
                     name:profile.name,

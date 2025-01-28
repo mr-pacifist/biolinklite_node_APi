@@ -454,6 +454,56 @@ async function changeTheme(req, res) {
 }
 
 
+async function profileCounter(req,res) {
+
+    try {
+    
+        const userId =req.params.id;
+
+        // find user by id
+        const user = await Prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
+        
+        if(user && user.id === userId){
+            // Get the total count of profiles
+                const totalProfiles = await Prisma.profile.count({
+                    where: {
+                        userId: userId,
+                    },
+                });
+                res.status(200).json({
+                    totalProfiles,
+                });
+
+        }else{
+            throw new Error("User not found");
+        }
+    
+    } catch (error) {
+        if(error.message === "User not found"){
+            res.status(404).json({
+                error:{
+                    common:{
+                        msg:error.message,
+                    }
+                }
+            });
+        }else{
+            
+            res.status(500).json({
+                error:{
+                    common:{
+                        msg:"Internal server error",
+                    }
+                }
+            });
+        }
+        
+    }
+}
 
 module.exports = {
     getSingleProfile,
@@ -462,4 +512,5 @@ module.exports = {
     updateProfile,
     deleteProfile,
     changeTheme,
+    profileCounter,
 }

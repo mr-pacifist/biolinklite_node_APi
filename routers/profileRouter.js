@@ -28,6 +28,7 @@ const {
     updateProfile,
     deleteProfile,
     changeTheme,
+    profileCounter,
  } = require("../controllers/profileController");
 
 
@@ -77,6 +78,12 @@ router.put("/edit-theme/:id",
     changeThemeValidationHandler,
     changeTheme
       
+);
+
+// Count profiles 
+router.get("/dashboard/:id",
+    authencitation,
+    profileCounter,
 );
 
 module.exports = router;

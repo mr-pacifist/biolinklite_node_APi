@@ -15,6 +15,7 @@ const profileRouter = require("./routers/profileRouter");
 const custom_linkRouter = require("./routers/custom_linkRouter");
 const headerRouter = require("./routers/headerRouter");
 const socialMediaRouter = require("./routers/socialMediaRouter");
+const counterRouter = require("./routers/counterRouter");
 
 
 // app configuration
@@ -63,6 +64,7 @@ app.use("/profile", profileRouter );
 app.use("/custom_link", custom_linkRouter);
 app.use("/header", headerRouter);
 app.use("/socialMedia", socialMediaRouter);
+app.use("/dashboard", counterRouter);
 
 
 // 404 not found handler

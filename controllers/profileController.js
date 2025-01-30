@@ -6,6 +6,7 @@ const fs = require("fs");
 
 // internal imports
 const Prisma = require("../prisma/prismaClient");
+const { log } = require("console");
 
 
 // get multiple profile 
@@ -454,54 +455,89 @@ async function changeTheme(req, res) {
 }
 
 
-async function profileCounter(req,res) {
-
+async function profileCounter(req, res) {
     try {
-    
-        const userId =req.params.id;
+        const userId = req.params.id;
 
-        // find user by id
         const user = await Prisma.user.findUnique({
             where: {
                 id: userId,
             },
         });
-        
-        if(user && user.id === userId){
-            // Get the total count of profiles
-                const totalProfiles = await Prisma.profile.count({
+
+        if (user && user.id === userId) {
+            const totalProfiles = await Prisma.profile.count({
+                where: {
+                    userId: userId,
+                },
+            });
+
+            let customLinksCounts ;
+            let headerCounts ;
+            let socialMediaCounts ;
+
+            if (totalProfiles > 0) {
+                const profiles = await Prisma.profile.findMany({
                     where: {
                         userId: userId,
                     },
                 });
-                res.status(200).json({
-                    totalProfiles,
-                });
 
-        }else{
+                for (const profile of profiles) { // Use a for...of loop for async/await
+                    const customLinks = await Prisma.profileCustomLink.count({
+                        where: {
+                            profileId: profile.id,
+                        },
+                    });
+                    customLinksCounts= customLinks;
+
+                    const headers = await Prisma.profileHeader.count({
+                        where: {
+                            profileId: profile.id,
+                        },
+                    });
+                    headerCounts= headers;
+
+                    const socialMedias = await Prisma.profileSocialMediaLink.count({
+                        where: {
+                            profileId: profile.id,
+                        },
+                    });
+                    socialMediaCounts = socialMedias;
+                }
+            }
+
+            res.status(200).json({
+                totalProfiles,
+                customLinksCounts,
+                headerCounts,
+                socialMediaCounts,
+            });
+
+        } else {
             throw new Error("User not found");
         }
-    
+
     } catch (error) {
-        if(error.message === "User not found"){
+        if (error.message === "User not found") {
             res.status(404).json({
-                error:{
-                    common:{
-                        msg:error.message,
-                    }
-                }
+                error: {
+                    common: {
+                        msg: error.message,
+                    },
+                },
             });
-        }else{
-            
+        } else {
+            console.error(error); // Log the error for debugging
             res.status(500).json({
-                error:{
-                    common:{
-                        msg:"Internal server error",
-                    }
-                }
+                error: {
+                    common: {
+                        msg: "Internal server error",
+                    },
+                },
             });
         }
-        
+
     }
 }
 

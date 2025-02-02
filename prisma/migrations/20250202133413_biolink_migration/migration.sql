@@ -56,6 +56,8 @@ CREATE TABLE "CustomLink" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "url" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "CustomLink_pkey" PRIMARY KEY ("id")
 );
@@ -64,6 +66,8 @@ CREATE TABLE "CustomLink" (
 CREATE TABLE "Header" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Header_pkey" PRIMARY KEY ("id")
 );

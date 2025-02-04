@@ -99,31 +99,25 @@ async function getBiolink(req,res) {
 
 
             // filter profile
-            const profilePhotoPath = `${process.env.SITE_URL}profile-photo/`;
-            const coverPhotoPath = `${process.env.SITE_URL}cover-photo/`;
+            let profilePhoto = profile.profilePhoto && profile.profilePhoto !== "" ? `${process.env.SITE_URL}profile-photo/ ${profile.profilePhoto}`: "";
+            let coverPhoto =  profile.coverPhoto && profile.coverPhoto !== "" ? `${process.env.SITE_URL}cover-photo/ ${profile.coverPhoto}`: "";
 
             if(profile.coverPhoto && profile.coverPhoto !== ""){
-                biolinkProfile = {
-                    themeId:profile.themeId,
-                    name:profile.name,
-                    bio:profile.bio,
-                    profilePhoto: profilePhotoPath + profile.profilePhoto, 
-                    coverPhoto: coverPhotoPath + profile.coverPhoto,
-                    profileUrl:process.env.SITE_URL + profile.sub_directory,
-                    seo_title:profile.seo_title,
-                    seo_description:profile.seo_description,
-                };
+                
             }else{
-                biolinkProfile = {
-                    themeId:profile.themeId,
-                    name:profile.name,
-                    bio:profile.bio,
-                    profilePhoto: profilePhotoPath + profile.profilePhoto,
-                    profileUrl:process.env.SITE_URL + profile.sub_directory,
-                    seo_title:profile.seo_title,
-                    seo_description:profile.seo_description,
-                };
+                
             }
+            biolinkProfile = {
+                themeId:profile.themeId,
+                name:profile.name,
+                bio:profile.bio,
+                profilePhoto: profilePhoto, 
+                coverPhoto: coverPhoto,
+                profileUrl:process.env.SITE_URL + profile.sub_directory,
+                seo_title:profile.seo_title,
+                seo_description:profile.seo_description,
+            };
+            
 
             // response object
             const biolink = {

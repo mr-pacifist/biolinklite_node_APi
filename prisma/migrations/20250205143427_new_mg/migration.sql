@@ -63,6 +63,15 @@ CREATE TABLE "CustomLink" (
 );
 
 -- CreateTable
+CREATE TABLE "ProfileCustomLink" (
+    "id" SERIAL NOT NULL,
+    "profileId" TEXT NOT NULL,
+    "customLinkId" TEXT NOT NULL,
+
+    CONSTRAINT "ProfileCustomLink_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Header" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -73,21 +82,20 @@ CREATE TABLE "Header" (
 );
 
 -- CreateTable
-CREATE TABLE "ProfileCustomLink" (
-    "id" TEXT NOT NULL,
-    "profileId" TEXT NOT NULL,
-    "customLinkId" TEXT NOT NULL,
-
-    CONSTRAINT "ProfileCustomLink_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "ProfileHeader" (
     "id" TEXT NOT NULL,
     "profileId" TEXT NOT NULL,
     "headerId" TEXT NOT NULL,
 
     CONSTRAINT "ProfileHeader_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "HeaderCustomlink" (
+    "customLinkId" TEXT NOT NULL,
+    "headerId" TEXT NOT NULL,
+
+    CONSTRAINT "HeaderCustomlink_pkey" PRIMARY KEY ("customLinkId")
 );
 
 -- CreateTable
@@ -130,6 +138,9 @@ CREATE UNIQUE INDEX "Profile_sub_directory_key" ON "Profile"("sub_directory");
 -- CreateIndex
 CREATE UNIQUE INDEX "Address_userId_key" ON "Address"("userId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "HeaderCustomlink_customLinkId_headerId_key" ON "HeaderCustomlink"("customLinkId", "headerId");
+
 -- AddForeignKey
 ALTER TABLE "Profile" ADD CONSTRAINT "Profile_themeId_fkey" FOREIGN KEY ("themeId") REFERENCES "Theme"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -150,6 +161,12 @@ ALTER TABLE "ProfileHeader" ADD CONSTRAINT "ProfileHeader_profileId_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "ProfileHeader" ADD CONSTRAINT "ProfileHeader_headerId_fkey" FOREIGN KEY ("headerId") REFERENCES "Header"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "HeaderCustomlink" ADD CONSTRAINT "HeaderCustomlink_customLinkId_fkey" FOREIGN KEY ("customLinkId") REFERENCES "CustomLink"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "HeaderCustomlink" ADD CONSTRAINT "HeaderCustomlink_headerId_fkey" FOREIGN KEY ("headerId") REFERENCES "Header"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProfileSocialMediaLink" ADD CONSTRAINT "ProfileSocialMediaLink_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

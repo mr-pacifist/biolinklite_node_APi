@@ -67,16 +67,12 @@ model CustomLink {
   id   String @id @default(uuid())
   name String
   url  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   ProfileCustomLink ProfileCustomLink[]
 }
 
 model Header {
   id            String @id @default(uuid())
   title         String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   ProfileHeader ProfileHeader[]
 }
 

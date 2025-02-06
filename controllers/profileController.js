@@ -6,7 +6,6 @@ const fs = require("fs");
 
 // internal imports
 const Prisma = require("../prisma/prismaClient");
-const { log } = require("console");
 
 
 // get multiple profile 
@@ -106,7 +105,7 @@ async function getMultipleProfile(req, res) {
         if (profiles.length > 0) {
             const ProfileList = profiles.map(profile => ({ 
                 ...profile, 
-                profilePhoto: `${profilePhotoPath}${profile.profilePhoto}` 
+                profilePhoto: profile.profilePhoto ? `${profilePhotoPath}${profile.profilePhoto}` : ""  
             }));
 
             res.status(200).json({

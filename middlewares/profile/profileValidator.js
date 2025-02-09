@@ -119,14 +119,14 @@ const updateProfileValidation = [
 
   check("bio")
       .optional()
-      .isLength({ min:5},{max:50})
-      .withMessage("Bio must be 10-50 chars long")
+      .isLength({ min:5})
+      .withMessage("Bio must be 5 or more chars long")
       .trim(),
     
   check("sub_directory")
       .optional()
       .isLength({min:3},{max:50})
-      .withMessage("URL must contain 3 - 50 chars long")
+      .withMessage("slug must contain 3 - 50 chars long")
       .customSanitizer(value => value.replace(/\s+/g, ''))
       .toLowerCase()
       .custom(async (value, { req }) =>{
@@ -138,7 +138,7 @@ const updateProfileValidation = [
             select: { id: true },
           });
           if (subDirectory && subDirectory.id !== req.params.id) {
-            throw createError("This sub directory alredy taken");
+            throw createError("This slug is not available");
           }
         } catch (err) {
           throw createError(err.message);

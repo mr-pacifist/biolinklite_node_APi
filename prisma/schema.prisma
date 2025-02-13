@@ -64,11 +64,12 @@ model Country {
 }
 
 model CustomLink {
-  id               String               @id @default(uuid())
-  name             String
-  url              String
+  id                String               @id @default(uuid())
+  name              String
+  url               String
+  createdAt         DateTime             @default(now())
   ProfileCustomLink ProfileCustomLink[]
-  HeaderCustomlink HeaderCustomlink[]
+  HeaderCustomlink  HeaderCustomlink[]
 }
 
 model ProfileCustomLink {

@@ -103,7 +103,7 @@ async function getBiolink(req,res) {
                     return {  
                         name: socialMedia.name, 
                         socialMediaId: profileSocialmedia.socialMediaId, 
-                        url: socialMedia.url + profileSocialmedia.socialMediaSubdirectory.replace(/^\//, ''), // Remove leading slash if present 
+                        url: profileSocialmedia.socialMediaSubdirectory,
                         icon: process.env.SITE_URL + socialMedia.icon }; 
                     } return null; }).filter(Boolean);     
             }
@@ -150,7 +150,7 @@ async function getBiolink(req,res) {
     } catch (error) {
         res.status(500).json({
             error:{
-                msg:"Internal server error",
+                msg:error.message,
             }
         });
         

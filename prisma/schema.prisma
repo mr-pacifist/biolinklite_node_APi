@@ -64,18 +64,6 @@ model Country {
 }
 
 model CustomLink {
-<<<<<<< HEAD
-  id   String @id @default(uuid())
-  name String
-  url  String
-  ProfileCustomLink ProfileCustomLink[]
-}
-
-model Header {
-  id            String @id @default(uuid())
-  title         String
-  ProfileHeader ProfileHeader[]
-=======
   id               String               @id @default(uuid())
   name             String
   url              String
@@ -83,7 +71,6 @@ model Header {
   updatedAt        DateTime             @updatedAt
   ProfileCustomLink ProfileCustomLink[]
   HeaderCustomlink HeaderCustomlink[]
->>>>>>> header_link
 }
 
 model ProfileCustomLink {

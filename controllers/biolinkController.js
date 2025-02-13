@@ -20,53 +20,64 @@ async function getBiolink(req,res) {
         
             let biolinkProfile;
             let customLinks;
-            let headers;
             let socialMediaLinks;
             
 
             // find custom link list for this exsisting profile 
             const profileCustomlink = await Prisma.profileCustomLink.findMany({
-                where:{
+                where: {
                     profileId: profile.id,
-                }
+                },
             });
-
-            // find custom link
-            if(profileCustomlink && profileCustomlink.length > 0){
+            
+            // Fetch custom links
+            
+            if (profileCustomlink && profileCustomlink.length > 0) {
                 const customLinkIds = profileCustomlink.map(link => link.customLinkId);
-
-                 const getAllCustomlink = await Prisma.customLink.findMany({
-                     where: { 
-                        id: { 
-                            in: customLinkIds, 
-                        }, 
-                    }, 
+            
+                const getAllCustomlink = await Prisma.customLink.findMany({
+                    where: {
+                        id: {
+                            in: customLinkIds,
+                        },
+                    },
+                    include: {
+                        HeaderCustomlink: {
+                            include: {
+                                header: true,
+                            },
+                        },
+                    },
                 });
-
-                const {id, ...filterLinks} = getAllCustomlink;
-                customLinks = filterLinks;
+            
+                customLinks = getAllCustomlink;
             }
 
-            // find header list for the exsisting profile
-            const profile_headers = await Prisma.profileHeader.findMany({
-                where:{
-                    profileId: profile.id,
+            const Links = customLinks.reduce((acc, customLink, index) => {
+                if (customLink.HeaderCustomlink.length > 0) {
+                    customLink.HeaderCustomlink.forEach(link => {
+                        acc[index] = {
+                            id: customLink.id,
+                            title: link.header.title,
+                            name: customLink.name,
+                            url: customLink.url,
+                            createdAt: customLink.createdAt,
+                            updatedAt: customLink.updatedAt,
+                        };
+                    });
+                } else {
+                    acc[index] = {
+                        id: customLink.id,
+                        title: "",
+                        name: customLink.name,
+                        url: customLink.url,
+                        createdAt: customLink.createdAt,
+                        updatedAt: customLink.updatedAt,
+                    };
                 }
-            });
-
-            // find headers
-            if(profile_headers){
-                const headerIds = profile_headers.map(heading => heading.headerId);
-                const getAllHeaders = await Prisma.header.findMany({
-                    where:{
-                        id:{
-                            in: headerIds,
-                        }
-                    }
-                });
-                const {id, ...filterHeader} = getAllHeaders;
-                headers = filterHeader;
-            }
+                return acc;
+            }, {});
+           
             // find social medias for the exsisting profile
             const profileSocialmedia = await Prisma.profileSocialMediaLink.findMany({
                 where:{
@@ -92,7 +103,7 @@ async function getBiolink(req,res) {
                     return {  
                         name: socialMedia.name, 
                         socialMediaId: profileSocialmedia.socialMediaId, 
-                        url: socialMedia.url + profileSocialmedia.socialMediaSubdirectory.replace(/^\//, ''), // Remove leading slash if present 
+                        url: profileSocialmedia.socialMediaSubdirectory,
                         icon: process.env.SITE_URL + socialMedia.icon }; 
                     } return null; }).filter(Boolean);     
             }
@@ -122,9 +133,8 @@ async function getBiolink(req,res) {
             // response object
             const biolink = {
                 biolinkProfile,
-                customLinks,
-                headers,
-                socialMediaLinks
+                Links,
+                socialMediaLinks,
             };
 
             res.status(200).json(biolink) 
@@ -140,7 +150,7 @@ async function getBiolink(req,res) {
     } catch (error) {
         res.status(500).json({
             error:{
-                msg:"Internal server error",
+                msg:error.message,
             }
         });
         

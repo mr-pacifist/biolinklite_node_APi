@@ -38,7 +38,6 @@ router.post("/add",//need to verify url contains corret social media or not
     authencitation,
     socialMediaUrlValidation,
     socialMediaUrlValidationHandler,
-    splitSubdirectories,
     addSocialmedia, 
 );
 
@@ -47,7 +46,6 @@ router.put("/edit/:id",
     authencitation,
     updateSocialMediaUrlValidation,
     updateSocialMediaUrlValidationHandler,
-    splitSubdirectories,
     updateSocialmedia
  );
 

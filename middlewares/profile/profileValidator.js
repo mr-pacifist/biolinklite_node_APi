@@ -43,9 +43,9 @@ const createProfileValidation = [
       
     check("sub_directory")
         .notEmpty()
-        .withMessage("Url sub directory is required")
+        .withMessage("Slug is required")
         .isLength({max:50})
-        .withMessage("URL sub directory is  too long")
+        .withMessage("Slug is  too long")
         .customSanitizer(value => value.replace(/\s+/g, ''))
         .toLowerCase()
         .custom(async (value) => {
@@ -56,7 +56,7 @@ const createProfileValidation = [
               },
               })
             if (subDirectory) {
-              throw createError("This sub directory alredy taken");
+              throw createError("This slug is not available");
             }
           } catch (err) {
             throw createError(err.message);
@@ -126,7 +126,11 @@ const updateProfileValidation = [
   check("sub_directory")
       .optional()
       .isLength({min:3},{max:50})
+<<<<<<< HEAD
       .withMessage("slug must contain 3 - 50 chars long")
+=======
+      .withMessage("Slug must contain 3 - 50 chars long")
+>>>>>>> header_link
       .customSanitizer(value => value.replace(/\s+/g, ''))
       .toLowerCase()
       .custom(async (value, { req }) =>{

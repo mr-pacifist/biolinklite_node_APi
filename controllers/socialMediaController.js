@@ -71,7 +71,7 @@ async function getProfileSocialmedia(req,res) {
                     profileId: profileSocialmedia.profileId, 
                     name: socialMedia.name, 
                     socialMediaId: profileSocialmedia.socialMediaId, 
-                    url: socialMedia.url + profileSocialmedia.socialMediaSubdirectory,
+                    url:profileSocialmedia.socialMediaSubdirectory,
                     icon: process.env.SITE_URL + socialMedia.icon }; 
                 } return null; }).filter(Boolean); 
             res.status(200).json({profileSocialMediaLinks});        
@@ -96,14 +96,16 @@ async function getProfileSocialmedia(req,res) {
 // add  social media 
 
 async function addSocialmedia(req,res) {
-    let {profileId, socialMediaId} = req.body;
+    let {profileId, socialMediaId,url} = req.body;
+    const decodeUrl = url.replace(/&#x2F;/g, '/');
+    
     const parsedSocialMediaId = parseInt(socialMediaId);
     try{
         const profileSocialMediaLink = await Prisma.profileSocialMediaLink.create({
             data:{
                 profileId,
                 socialMediaId:parsedSocialMediaId,
-                socialMediaSubdirectory: req.dataShare, 
+                socialMediaSubdirectory: decodeUrl, 
             }
         });
 
@@ -140,7 +142,7 @@ async function updateSocialmedia(req,res) {
                 id: req.params.id,
             },
             data:{
-                socialMediaSubdirectory:req.dataShare, 
+                socialMediaSubdirectory:req.body.url, 
             }
         });
 

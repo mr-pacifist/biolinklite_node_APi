@@ -64,6 +64,7 @@ model Country {
 }
 
 model CustomLink {
+<<<<<<< HEAD
   id   String @id @default(uuid())
   name String
   url  String
@@ -74,24 +75,50 @@ model Header {
   id            String @id @default(uuid())
   title         String
   ProfileHeader ProfileHeader[]
+=======
+  id               String               @id @default(uuid())
+  name             String
+  url              String
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  ProfileCustomLink ProfileCustomLink[]
+  HeaderCustomlink HeaderCustomlink[]
+>>>>>>> header_link
 }
 
 model ProfileCustomLink {
-  id           String @id @default(uuid())
+  id           Int    @id @default(autoincrement())
   profileId    String
   customLinkId String 
-  Profile      Profile @relation(fields: [profileId], references: [id])
+  Profile      Profile   @relation(fields: [profileId], references: [id])
   CustomLink   CustomLink @relation(fields: [customLinkId], references: [id])
-  
+}
+
+model Header {
+  id            String            @id @default(uuid())
+  title         String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  ProfileHeader ProfileHeader[]
+  HeaderCustomlink HeaderCustomlink[]
 }
 
 model ProfileHeader {
-  id        String @id @default(uuid())
+  id        String    @id @default(uuid())
   profileId String
   headerId  String
-  Profile   Profile @relation(fields: [profileId], references: [id])
-  Header    Header @relation(fields: [headerId], references: [id])
-  
+  Profile   Profile   @relation(fields: [profileId], references: [id])
+  Header    Header    @relation(fields: [headerId], references: [id])
+}
+
+model HeaderCustomlink {
+  customLinkId  String @id
+  headerId      String
+
+  customLink    CustomLink @relation(fields: [customLinkId], references: [id])
+  header        Header     @relation(fields: [headerId], references: [id])
+
+  @@unique([customLinkId, headerId])
 }
 
 model ProfileSocialMediaLink {

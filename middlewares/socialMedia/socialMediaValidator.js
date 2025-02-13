@@ -34,27 +34,10 @@ const socialMediaUrlValidation = [
         .trim(),
         
     body("url")
-        .custom((value, { req }) => {
-            const socialMediaId = parseInt(req.body.socialMediaId, 10);
-            if ([1, 5].includes(socialMediaId)) {
-                if(!value){
-                    throw new Error("This field is required");
-                }else{
-                    return true;
-                }  
-            }
-            if (!value) {
-                throw new Error("Url is required");
-            }
-            if (!/^(ftp|http|https):\/\/[^ "]+$/.test(value)) {
-                throw new Error("Please enter a valid URL example=https://www.example.com");
-            }
-            if (value.length > 255) {
-                throw new Error("URL is too long");
-            }
-            return true;
-        })
-        .trim().escape()
+        .notEmpty()
+        .withMessage("This field is required")
+        .trim(),
+        
 ];
 
 // social media validation handler
@@ -73,6 +56,7 @@ const socialMediaUrlValidationHandler = function (req, res, next) {
 
 // on update socialmedia  validator
 const updateSocialMediaUrlValidation = [ 
+  
   check("socialMediaId")
         .isNumeric()
         .withMessage("Only number acceptable")
@@ -81,24 +65,9 @@ const updateSocialMediaUrlValidation = [
         .trim(),
         
   body("url")
-        .custom((value, { req }) => {
-            const socialMediaId = parseInt(req.body.socialMediaId, 10);
-            if ([1, 5].includes(socialMediaId)) {
-                return true;
-            }
-            if (!value) {
-                throw new Error("Url is required");
-            }
-            if (!/^(ftp|http|https):\/\/[^ "]+$/.test(value)) {
-                throw new Error("Please enter a valid URL");
-            }
-            if (value.length > 255) {
-                throw new Error("URL is too long");
-            }
-            return true;
-        })
-
-        .trim().escape()
+        .isEmpty()
+        .withMessage("This field is required")
+    
 ];
 
  //on update social media validation handler

@@ -68,38 +68,65 @@ async function addHeaderTitle(req,res) {
               id: req.body.profileId,
             },
           });
-        if(!profile){
-            throw createError("Profile not found");
-        }
+        
+        if(profile && profile.id == req.body.profileId){
+           
+        //find the last added custom link
+        const lastEntry = await Prisma.profileCustomLink.findFirst({
+            where: {
+              profileId: req.body.profileId,
+            },
+            orderBy: {
+              id: 'desc',
+            },
+          });
+          
 
-        const {profileId, title} = req.body;
-        // create new Header
-        const newHeader = await Prisma.header.create({
-            data:{
-                title,
+          const findCustomlinkId = await Prisma.headerCustomlink.findUnique({
+            where: {
+              customLinkId: lastEntry.customLinkId,
             }
-        });
+          });
 
-        if(newHeader && newHeader.id){
-             // Associate the header with the profile
-        await Prisma.profileHeader.create({
-            data:{
-                profileId,
-                headerId:newHeader.id,
-            }
-        });
-
-        res.status(201).json({
-            message: "Header added successfully!",
-            newHeader,
-        });
+          if(!findCustomlinkId) {
+            const {profileId, title} = req.body;
+            // create new Header
+            const newHeader = await Prisma.header.create({
+                data:{
+                    title,
+                }
+            });
+        
+              // Associate the header with the profile
+              await Prisma.profileHeader.create({
+                data:{
+                    profileId,
+                    headerId:newHeader.id,
+                }
+            });
+            //link the header with the last added custom link
+            await Prisma.headerCustomlink.create({
+                data: {
+                    headerId: newHeader.id,
+                    customLinkId: lastEntry.customLinkId,
+                }
+            });
+    
+            res.status(201).json({
+                message: "Header added successfully!",
+                newHeader,
+            });      
+          }else{
+            throw createError("Header already exists try with another custom link");
+          }
+        
         }else{
             throw createError("Unable to add header")
         }
 
     }
     catch(error){
-        res.status(500).json({
+        res.status(401).json({
             error:{
                 common:{
                     msg:error.message,
@@ -165,32 +192,56 @@ async function updateHeaderTitle(req,res) {
 async function deleteHeaderTitle(req,res) {
     try{
         // find header list for the exsisting profile
-        const profile_headers = await Prisma.profileHeader.delete({
-            where:{
-                id: req.body.profileHeaderId,
-            }
-        })
-        // delete header
-        const deleteHeader = await Prisma.header.delete({
+        const profile_header = await Prisma.profileHeader.findUnique({
             where: {
-              id:req.params.id,
-            },
+              id: req.body.profileHeaderId,
+            }
           });
           
-          if(profile_headers && deleteHeader){
-            res.status(200).json({
-                message:"Header successfully removed!"
-            }); 
-          }else{
-            throw createError("Header not deleted");
-          }  
+          if (profile_header) {
+            // Delete the profile header
+            const deletedProfileHeader = await Prisma.profileHeader.delete({
+              where: {
+                id: req.body.profileHeaderId,
+              }
+            });
+          
+            if (deletedProfileHeader) {
+              // Delete header custom link
+              const deleteHeaderCustomLink = await Prisma.headerCustomlink.deleteMany({
+                where: {
+                  headerId: req.params.id,
+                }
+              });
+          
+              // Delete header
+              const deleteHeader = await Prisma.header.delete({
+                where: {
+                  id: req.params.id,
+                }
+              });
+          
+              if (deleteHeaderCustomLink.count>0 && deleteHeader) {
+                res.status(200).json({
+                  message: "Header successfully removed!"
+                });
+              } else {
+                throw createError("Header not deleted");
+              }
+            } else {
+              throw createError("Header not deleted");
+            }
+          } else {
+            throw createError("Header not found");
+          }
+  
     }
     catch(error){
         if (error.code === 'P2025') { // Prisma record not found error code
             res.status(400).json({
                 error:{
                     common:{
-                        msg:"Header not found",
+                        msg:error.message,
                     }
                 }
             });

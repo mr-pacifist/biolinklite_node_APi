@@ -18,10 +18,15 @@ const headerValidation = [
                 where: {
                   id: value,
                 },
-              })
-            if (!profile) {
-              throw createError("Invalid profile ID");
-            }
+              });
+            const customlink = await Prisma.profileCustomLink.findFirst({
+                where: {
+                  profileId: value,
+                },
+            })
+            if (!customlink) throw createError("Please add custom link first");
+            if (!profile) throw createError("Invalid profile ID");
+            
           } catch (err) {
             throw createError(err.message);
           }

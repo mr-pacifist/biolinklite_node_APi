@@ -126,11 +126,7 @@ const updateProfileValidation = [
   check("sub_directory")
       .optional()
       .isLength({min:3},{max:50})
-<<<<<<< HEAD
-      .withMessage("slug must contain 3 - 50 chars long")
-=======
       .withMessage("Slug must contain 3 - 50 chars long")
->>>>>>> header_link
       .customSanitizer(value => value.replace(/\s+/g, ''))
       .toLowerCase()
       .custom(async (value, { req }) =>{

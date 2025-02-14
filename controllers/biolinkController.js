@@ -20,6 +20,7 @@ async function getBiolink(req,res) {
         
             let biolinkProfile;
             let customLinks;
+            let Links;
             let socialMediaLinks;
             
 
@@ -52,31 +53,36 @@ async function getBiolink(req,res) {
             
                 customLinks = getAllCustomlink;
             }
-
-            const Links = customLinks.reduce((acc, customLink, index) => {
-                if (customLink.HeaderCustomlink.length > 0) {
-                    customLink.HeaderCustomlink.forEach(link => {
+            if (customLinks) {
+                Links = customLinks.reduce((acc, customLink, index) => {
+                    if (customLink.HeaderCustomlink.length > 0) {
+                        customLink.HeaderCustomlink.forEach(link => {
+                            acc[index] = {
+                                id: customLink.id,
+                                title: link.header.title,
+                                name: customLink.name,
+                                url: customLink.url,
+                                createdAt: customLink.createdAt,
+                                updatedAt: customLink.updatedAt,
+                            };
+                        });
+                    } else {
                         acc[index] = {
                             id: customLink.id,
-                            title: link.header.title,
+                            title: "",
                             name: customLink.name,
                             url: customLink.url,
                             createdAt: customLink.createdAt,
                             updatedAt: customLink.updatedAt,
                         };
-                    });
-                } else {
-                    acc[index] = {
-                        id: customLink.id,
-                        title: "",
-                        name: customLink.name,
-                        url: customLink.url,
-                        createdAt: customLink.createdAt,
-                        updatedAt: customLink.updatedAt,
-                    };
-                }
-                return acc;
-            }, {});
+                    }
+                    return acc;
+                }, {});
+                
+            }else{
+                Links = "";
+            }
+  
            
             // find social medias for the exsisting profile
             const profileSocialmedia = await Prisma.profileSocialMediaLink.findMany({

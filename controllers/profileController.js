@@ -315,45 +315,76 @@ async function updateProfile(req,res) {
 // delete user existing  profile
 async function deleteProfile(req, res) {
     try {
-        const deleteProfile = await Prisma.profile.delete({
+        const Profile = await Prisma.profile.findUnique({
             where: {
                 id: req.params.id,
-            }
+            },
         });
 
-        if (!deleteProfile) {
+        if (!Profile) {
             throw createError("Unable to delete the profile");
 
         } else {
-            // delete profilecustom link
-            const deletedProfileCustomLink = await Prisma.profileCustomLink.deleteMany({
+            // get profile custom link
+            const profileCustomLink  = await Prisma.profileCustomLink.findMany({
                 where: {
                     profileId: req.params.id,
-                }
-            }); 
+                }     
+            });
+            
             // custom link
-            if(deletedProfileCustomLink){
+            if(profileCustomLink && profileCustomLink.length > 0){
+                // delete profilecustom link
+                const deletedProfileCustomLink = await Prisma.profileCustomLink.deleteMany({
+                    where: {
+                    profileId: req.params.id,
+                    }
+                }); 
+
+                // count header custom link
+                const countHeaderCustomLink = await Prisma.headerCustomlink.count({
+                    where: {
+                        customLinkId: profileCustomLink.map(link => link.customLinkId),
+                    }
+                });
+
+                if(countHeaderCustomLink > 0){
+                     // delete headercustom link
+                    await Prisma.headerCustomlink.deleteMany({
+                        where: {
+                            customLinkId: profileCustomLink.map(link => link.customLinkId),
+                        }
+                    });
+                }
+
+                // delete custom link
                  await Prisma.customLink.deleteMany({
                     where: {
-                        id: deletedProfileCustomLink.map(link => link.customLinkId),
+                        id: profileCustomLink.map(link => link.customLinkId),
                     }
                 })
             }
 
-            // delete profile header
-            const deletedProfileHeader = await Prisma.profileHeader.deleteMany({
-                where: {            
+            // get profile header
+            const profileHeader  = await Prisma.profileHeader.findMany({
+                where: {
                     profileId: req.params.id,
-                }        
-            }); 
+                }     
+            });
             // header
-            if(deletedProfileHeader){
-                await Prisma.header.deleteMany({ 
+            if(profileHeader && profileHeader.length > 0){
+                // delete profile header
+                const deletedProfileHeader = await Prisma.profileHeader.deleteMany({
                     where: {
-                        id: deletedProfileHeader.map(header => header.headerId),
+                    profileId: req.params.id,
                     }
                 });
-                }
+                await Prisma.header.deleteMany({
+                    where: {
+                        id: profileHeader.map(header => header.headerId),
+                    }
+                });
+            }
                 
             // delete profile social media
             await Prisma.profileSocialMediaLink.deleteMany({
@@ -361,6 +392,12 @@ async function deleteProfile(req, res) {
                     profileId: req.params.id,
                 }
             }); 
+
+            const deleteProfile = await Prisma.profile.delete({
+                where: {
+                    id: req.params.id,
+                }
+            });      
 
             // Remove profile photo
             if (deleteProfile.profilePhoto) {

@@ -332,8 +332,54 @@ async function deleteProfile(req, res) {
                 }     
             });
             
-            // custom link
+            //delete custom link & header
             if(profileCustomLink && profileCustomLink.length > 0){
+
+               
+                // Find header custom links
+                const headerCustomLinks = await Prisma.headerCustomlink.findMany({
+                        where: {
+                            customLinkId: {
+                                in: profileCustomLink.map(link => link.customLinkId)
+                            }
+                        }
+                    });
+
+
+                if(headerCustomLinks && headerCustomLinks.length > 0){
+                    
+                        // Delete header custom links
+                        await Prisma.headerCustomlink.deleteMany({
+                            where: {
+                                customLinkId: {
+                                    in: profileCustomLink.map(link => link.customLinkId)
+                                }
+                            }
+                        });
+                    
+                        // Get profile headers
+                        const profileHeader = await Prisma.profileHeader.findMany({
+                            where: {
+                                profileId: req.params.id
+                            }
+                        });
+                    
+                        // Delete profile headers
+                        await Prisma.profileHeader.deleteMany({
+                            where: {
+                                profileId: req.params.id
+                            }
+                        });
+                    
+                        // Delete headers
+                        await Prisma.header.deleteMany({
+                            where: {
+                                id: {
+                                    in: profileHeader.map(header => header.headerId)
+                                }
+                            }
+                        });
+                }
                 // delete profilecustom link
                 const deletedProfileCustomLink = await Prisma.profileCustomLink.deleteMany({
                     where: {
@@ -341,49 +387,14 @@ async function deleteProfile(req, res) {
                     }
                 }); 
 
-                // count header custom link
-                const countHeaderCustomLink = await Prisma.headerCustomlink.count({
-                    where: {
-                        customLinkId: profileCustomLink.map(link => link.customLinkId),
-                    }
-                });
-
-                if(countHeaderCustomLink > 0){
-                     // delete headercustom link
-                    await Prisma.headerCustomlink.deleteMany({
-                        where: {
-                            customLinkId: profileCustomLink.map(link => link.customLinkId),
-                        }
-                    });
-                }
-
                 // delete custom link
                  await Prisma.customLink.deleteMany({
                     where: {
-                        id: profileCustomLink.map(link => link.customLinkId),
+                        id: {
+                            in:profileCustomLink.map(link => link.customLinkId),
+                        }
                     }
                 })
-            }
-
-            // get profile header
-            const profileHeader  = await Prisma.profileHeader.findMany({
-                where: {
-                    profileId: req.params.id,
-                }     
-            });
-            // header
-            if(profileHeader && profileHeader.length > 0){
-                // delete profile header
-                const deletedProfileHeader = await Prisma.profileHeader.deleteMany({
-                    where: {
-                    profileId: req.params.id,
-                    }
-                });
-                await Prisma.header.deleteMany({
-                    where: {
-                        id: profileHeader.map(header => header.headerId),
-                    }
-                });
             }
                 
             // delete profile social media

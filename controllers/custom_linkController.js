@@ -192,9 +192,40 @@ async function updateCustomLink(req,res) {
 // delete custom link
 async function removeCustomLink(req,res) {
     try{
+        
+          // find header custom link
+          const headerCustomLink = await Prisma.headerCustomlink.findUnique({
+            where: {
+              customLinkId: req.params.id,
+            },
+          });
+          // delete header
+        if(headerCustomLink){
+            // delete header custom link
+            const deletedHeaderCustomLink = await Prisma.headerCustomlink.delete({
+                where: {
+                  customLinkId: req.params.id,
+                },
+              });
+              
+    
+            // delete profile header
+            const deletedProfileHeader = await Prisma.profileHeader.deleteMany({
+                where: {
+                  headerId: deletedHeaderCustomLink.headerId,
+                },
+              });
+    
+            // delete header
+            const deletedHeader = await Prisma.header.delete({
+                where: {
+                  id: deletedHeaderCustomLink.headerId,
+                },
+              });
+        }
 
-        //delete profile custom link
-        const deletedProfileCustomLink = await Prisma.profileCustomLink.delete({
+          //delete profile custom link
+          const deletedProfileCustomLink = await Prisma.profileCustomLink.delete({
             where: {
               id: req.body.profileCustomlinkId,
             },

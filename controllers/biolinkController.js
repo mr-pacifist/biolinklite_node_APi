@@ -54,34 +54,35 @@ async function getBiolink(req,res) {
                 customLinks = getAllCustomlink;
             }
             if (customLinks) {
-                Links = customLinks.reduce((acc, customLink, index) => {
+                 Links = customLinks.reduce((acc, customLink) => {
                     if (customLink.HeaderCustomlink.length > 0) {
                         customLink.HeaderCustomlink.forEach(link => {
-                            acc[index] = {
+                            acc.push({
                                 id: customLink.id,
                                 title: link.header.title,
                                 name: customLink.name,
                                 url: customLink.url,
                                 createdAt: customLink.createdAt,
                                 updatedAt: customLink.updatedAt,
-                            };
+                            });
                         });
                     } else {
-                        acc[index] = {
+                        acc.push({
                             id: customLink.id,
                             title: "",
                             name: customLink.name,
                             url: customLink.url,
                             createdAt: customLink.createdAt,
                             updatedAt: customLink.updatedAt,
-                        };
+                        });
                     }
                     return acc;
-                }, {});
-                
+                }, []);
+                  
             }else{
-                Links = "";
+                Links = [];
             }
+                
   
            
             // find social medias for the exsisting profile

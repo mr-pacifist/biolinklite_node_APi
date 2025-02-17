@@ -30,15 +30,10 @@ if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', false); // Do not trust proxy in development
   }
 
-// cors configuration
-// app.use(cors(
-//     {
-//         origin: process.env.CLIENT_URL,
-//         credentials: true,
-//     }
-// ));
+const frontEndUrl = process.env.CLIENT_URL;
+const newFrontEndUrl = frontEndUrl.slice(0, -1);
 
-const allowedOrigins = ['https://biolink-lite.vercel.app', 'http://localhost:3000',];
+const allowedOrigins = [newFrontEndUrl, 'http://localhost:3000',];
 
 app.use(cors({
     origin: function (origin, callback) {

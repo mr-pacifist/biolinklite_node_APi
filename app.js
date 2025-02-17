@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
 //     }
 // ));
 
-const allowedOrigins = [`${process.env.CLIENT_URL}`, 'http://localhost:3000',];
+const allowedOrigins = ['https://biolink-lite.vercel.app', 'http://localhost:3000',];
 
 app.use(cors({
     origin: function (origin, callback) {

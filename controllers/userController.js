@@ -156,13 +156,14 @@ async function changePassword(req,res) {
             );
 
             if(isValidPassword){
+                const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
 
                 await Prisma.user.update({
                     where:{
                         id:req.params.id,
                     },
                     data:{
-                        password: req.body.newPassword,
+                        password: hashedPassword,
                     }
 
                 });

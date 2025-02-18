@@ -51,7 +51,11 @@ const headerValidationHandler = function (req, res, next) {
       next();
     } else {
       res.status(401).json( {
-        errors: mappedErrors,
+        errors: {
+          common: {
+            msg: mappedErrors,
+          }
+        }
       });
     }
   };

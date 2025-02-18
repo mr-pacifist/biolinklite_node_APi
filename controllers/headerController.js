@@ -117,7 +117,7 @@ async function addHeaderTitle(req,res) {
                 newHeader,
             });      
           }else{
-            throw createError("Header already exists try with another custom link");
+            throw createError("Add new custom link first");
           }
         
         }else{

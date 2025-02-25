@@ -65,8 +65,9 @@ const updateSocialMediaUrlValidation = [
         .trim(),
         
   body("url")
-        .isEmpty()
+        .notEmpty()
         .withMessage("This field is required")
+        .trim(),
     
 ];
 

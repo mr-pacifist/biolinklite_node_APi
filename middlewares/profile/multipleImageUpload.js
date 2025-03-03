@@ -6,7 +6,7 @@ function multipleImageUpload(req, res, next) {
     "profile-photo",
     "cover-photo",
     ["image/jpg", "image/jpeg", "image/png"],
-    2000000,
+    5000000,
     2,
     "Only .jpg, jpeg or .png format allowed!"
   );

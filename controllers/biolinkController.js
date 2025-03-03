@@ -117,8 +117,8 @@ async function getBiolink(req,res) {
 
 
             // filter profile
-            let profilePhoto = profile.profilePhoto && profile.profilePhoto !== "" ? `${process.env.SITE_URL}profile-photo/ ${profile.profilePhoto}`: "";
-            let coverPhoto =  profile.coverPhoto && profile.coverPhoto !== "" ? `${process.env.SITE_URL}cover-photo/ ${profile.coverPhoto}`: "";
+            let profilePhoto = profile.profilePhoto && profile.profilePhoto !== "" ? `${process.env.SITE_URL}profile-photo/${profile.profilePhoto}`: "";
+            let coverPhoto =  profile.coverPhoto && profile.coverPhoto !== "" ? `${process.env.SITE_URL}cover-photo/${profile.coverPhoto}`: "";
 
             if(profile.coverPhoto && profile.coverPhoto !== ""){
                 

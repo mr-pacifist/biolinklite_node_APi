@@ -4,7 +4,7 @@ function imageUploader(req, res, next) {
   const upload = uploader(
     "profile-photo",
     ["image/jpg", "image/jpeg", "image/png"],
-    2000000,
+    5000000,
     "Only .jpg, jpeg or .png format allowed!"
   );
 

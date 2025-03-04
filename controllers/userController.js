@@ -24,9 +24,8 @@ async function getUser(req,res) {
             }
         });
         // find all counry list 
-        const countryList = await Prisma.country.findMany();
         
-        if(user && user.id && userAddress.id && countryList){
+        if(user && user.id && userAddress.id ){
 
             const { password,userName, createdAt, updatedAt, ...filteredUser } = user;
 
@@ -35,7 +34,6 @@ async function getUser(req,res) {
                 message:"Request successfull!",
                 user:filteredUser,
                 address:userAddress,
-                countryList,
             });
 
         }else{

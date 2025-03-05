@@ -28,7 +28,7 @@ async function getSingleProfile(req,res) {
                 profilePhotoPath='';
             }
             if(profile.coverPhoto) {
-                coverPhotoPath = `${process.env.SITE_URL}profile-photo/`;
+                coverPhotoPath = `${process.env.SITE_URL}cover-photo/`;
             }else{
                 coverPhotoPath='';
             }

@@ -8,8 +8,8 @@ const {getBiolink,getBiolinkByProfileId} = require("../controllers/biolinkContro
 // set retlimit
 const limiter = require("../middlewares/common/limiter");
 
-router.get("/:id([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})", limiter, getBiolinkByProfileId);
-router.get("/:subDirectory",limiter, getBiolink );
+router.get("profile/:id([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})", limiter, getBiolinkByProfileId);
+router.get("profile/:subDirectory",limiter, getBiolink );
 
 
 

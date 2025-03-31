@@ -296,7 +296,7 @@ async function getBiolinkByProfileId(req,res) {
                 bio:profile.bio,
                 profilePhoto: profilePhoto, 
                 coverPhoto: coverPhoto,
-                profileUrl:process.env.CLIENT_URL + profile.sub_directory,
+                profileUrl:process.env.CLIENT_URL + "profile/" + profile.sub_directory,
                 seo_title:profile.seo_title,
                 seo_description:profile.seo_description,
             };
